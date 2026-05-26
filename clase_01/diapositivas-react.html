@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React desde Cero — Bootcamp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.5/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.5/dist/theme/night.css" id="theme" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;600&display=swap');
+
+    :root {
+      --react: #58c4dc;
+      --react-dark: #149eca;
+      --bg: #0a0a1a;
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+      --text: #e8e8e8;
+      --muted: #8888aa;
+      --green: #2ecc71;
+      --red: #e74c3c;
+      --orange: #f39c12;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(88,196,220,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(20,158,202,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 50%);
+      z-index: 0;
+      animation: bgShift 12s ease-in-out infinite alternate;
+    }
+    @keyframes bgShift {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.05) rotate(2deg); }
+    }
+
+    .particle {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: var(--react);
+      border-radius: 50%;
+      opacity: 0.12;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .particle:nth-child(1) { top: 15%; left: 10%; animation: float 18s infinite; }
+    .particle:nth-child(2) { top: 75%; left: 85%; animation: float 22s infinite reverse; width: 6px; height: 6px; }
+    .particle:nth-child(3) { top: 40%; left: 95%; animation: float 15s infinite 3s; }
+    .particle:nth-child(4) { top: 85%; left: 20%; animation: float 20s infinite 5s; width: 3px; height: 3px; }
+    .particle:nth-child(5) { top: 10%; left: 70%; animation: float 25s infinite 2s; }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.08; }
+      25% { transform: translate(30px, -40px) scale(1.2); opacity: 0.18; }
+      50% { transform: translate(-20px, -80px) scale(0.8); opacity: 0.12; }
+      75% { transform: translate(40px, -30px) scale(1.1); opacity: 0.22; }
+    }
+
+    .reveal { font-family: 'Inter', system-ui, sans-serif; z-index: 1; position: relative; }
+    .reveal .slides { z-index: 1; }
+
+    .reveal h1 { color: var(--react); text-transform: none; font-weight: 900; letter-spacing: -0.02em; }
+    .reveal h2 { color: var(--react); text-transform: none; font-weight: 800; letter-spacing: -0.01em; }
+    .reveal h3 { text-transform: none; font-weight: 700; color: #fff; }
+    .reveal p, .reveal li { color: var(--text); }
+
+    .reveal code {
+      font-family: 'Fira Code', monospace;
+      background: rgba(88,196,220,0.12);
+      padding: 0.15em 0.45em;
+      border-radius: 5px;
+      font-size: 0.8em;
+      color: var(--react);
+    }
+    .reveal pre {
+      box-shadow: none;
+      border-radius: 12px;
+      background: #0d0d2b !important;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .reveal pre code {
+      font-size: 0.65em;
+      line-height: 1.6;
+      max-height: 500px;
+      padding: 1.2em;
+      background: transparent !important;
+      color: #e8e8e8;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.2em;
+      backdrop-filter: blur(12px);
+    }
+    .card-react { border-left: 4px solid var(--react); }
+    .card-green { border-left: 4px solid var(--green); }
+    .card-red { border-left: 4px solid var(--red); }
+    .card-gold { border-left: 4px solid var(--orange); }
+
+    .code-window {
+      background: #0d0d2b;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+    .code-window .bar {
+      display: flex;
+      gap: 7px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.04);
+    }
+    .code-window .bar span { width: 11px; height: 11px; border-radius: 50%; }
+    .code-window .bar .r { background: #ff5f57; }
+    .code-window .bar .y { background: #ffbd2e; }
+    .code-window .bar .g { background: #28c840; }
+    .code-window .bar .title {
+      font-size: 0.6em;
+      color: var(--muted);
+      margin-left: 0.8em;
+    }
+    .code-window pre { margin: 0; border: none; border-radius: 0; }
+    .code-window pre code { padding: 1em 1.2em; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      text-align: left;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15em 0.5em;
+      border-radius: 20px;
+      font-size: 0.55em;
+      font-weight: 700;
+    }
+    .badge-s1 { background: rgba(88,196,220,0.15); color: var(--react); border: 1px solid rgba(88,196,220,0.2); }
+    .badge-s2 { background: rgba(46,204,113,0.15); color: var(--green); border: 1px solid rgba(46,204,113,0.2); }
+    .badge-s3 { background: rgba(243,156,18,0.15); color: var(--orange); border: 1px solid rgba(243,156,18,0.2); }
+
+    .company-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5em 1.5em;
+      font-size: 0.65em;
+      text-align: left;
+    }
+    .company-grid li {
+      margin-bottom: 0.3em;
+      padding: 0.3em 0.6em;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+    }
+
+    .stat-number {
+      font-size: 2.2em;
+      font-weight: 900;
+      color: var(--react);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.55em;
+      color: var(--muted);
+      margin-top: 0.3em;
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .stat-grid > div {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 0.8em;
+      text-align: center;
+    }
+
+    .reveal ul, .reveal ol { display: block; }
+    .reveal li { margin-bottom: 0.3em; }
+    .reveal table { font-size: 0.65em; width: 100%; }
+    .reveal th { color: var(--react); font-weight: 700; }
+    .reveal td { padding: 0.4em 0.6em; }
+    .reveal tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+    .slide-number { font-size: 0.55em !important; color: var(--muted) !important; }
+
+    .session-tag {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      padding: 5px 16px;
+      border-radius: 20px;
+      font-size: 0.6em;
+      font-weight: 700;
+      z-index: 200;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: none;
+    }
+    .session-tag.s1 { background: rgba(88,196,220,0.15); color: var(--react); border-color: rgba(88,196,220,0.2); }
+    .session-tag.s2 { background: rgba(46,204,113,0.15); color: var(--green); border-color: rgba(46,204,113,0.2); }
+    .session-tag.s3 { background: rgba(243,156,18,0.15); color: var(--orange); border-color: rgba(243,156,18,0.2); }
+
+    .highlight-react { color: var(--react); font-weight: 700; }
+    .highlight-green { color: var(--green); font-weight: 700; }
+    .highlight-red { color: var(--red); font-weight: 700; }
+    .highlight-gold { color: var(--orange); font-weight: 700; }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .comparison-row .bad { background: rgba(231,76,60,0.06); border: 1px solid rgba(231,76,60,0.15); border-radius: 12px; padding: 0.8em; }
+    .comparison-row .good { background: rgba(46,204,113,0.06); border: 1px solid rgba(46,204,113,0.15); border-radius: 12px; padding: 0.8em; }
+    .comparison-row .label { font-size: 0.6em; font-weight: 700; margin-bottom: 0.3em; }
+    .comparison-row .bad .label { color: var(--red); }
+    .comparison-row .good .label { color: var(--green); }
+
+    .principle-flow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5em;
+      font-size: 0.75em;
+      padding: 0.5em;
+    }
+    .principle-flow .step {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0.4em 0.8em;
+    }
+    .principle-flow .arrow { color: var(--muted); font-size: 1.2em; }
+
+    .exercise-grid { display: grid; gap: 0.6rem; }
+    .ex-card {
+      padding: 0.7em 1em;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+    .ex-card .ex-title { font-weight: 700; font-size: 0.7em; margin-bottom: 0.15em; }
+    .ex-card .ex-desc { font-size: 0.55em; color: var(--muted); }
+    .ex-easy { border-left: 3px solid var(--green); }
+    .ex-mid { border-left: 3px solid var(--orange); }
+    .ex-hard { border-left: 3px solid var(--red); }
+
+    .fragment { transition: all 0.3s ease; }
+
+    .icon-lg { font-size: 2.5em; display: block; margin-bottom: 0.15em; }
+  </style>
+</head>
+<body>
+
+<div class="particle"></div><div class="particle"></div>
+<div class="particle"></div><div class="particle"></div><div class="particle"></div>
+
+<div class="session-tag" id="sessionTag"></div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SESIÓN 1                                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <section>
+      <div class="icon-lg">⚛️</div>
+      <h1 style="font-size: 2.8em; margin-bottom: 0.1em;">React <span style="color: #fff;">desde Cero</span></h1>
+      <p style="font-size: 1.1em; color: var(--muted); margin-bottom: 1.5em;">Guía para Bootcamp · 3 sesiones</p>
+      <div style="display: flex; justify-content: center; gap: 0.6em; flex-wrap: wrap;">
+        <span class="badge badge-s1">⚛️ React 19</span>
+        <span class="badge badge-s1">⚡ Vite 6</span>
+        <span class="badge badge-s1">🟢 Node 22 LTS</span>
+        <span class="badge badge-s1">📦 pnpm 10</span>
+      </div>
+      <p style="margin-top: 2em; font-size: 0.65em; color: var(--muted);">"No hace falta saber todo para empezar. Hace falta empezar."</p>
+    </section>
+
+    <section>
+      <h2>🗺️ Contenido del bootcamp</h2>
+      <div class="grid-3" style="margin-top: 0.8em;">
+        <div class="card card-react" style="text-align: center;">
+          <p style="font-size: 1.4em; font-weight: 800; color: var(--react); margin-bottom: 0.2em;">1</p>
+          <h3 style="font-size: 0.75em; margin-bottom: 0.3em;">Fundamentos</h3>
+          <p style="font-size: 0.5em; color: var(--muted);">¿Qué es React? · Empresas · Cómo funciona · Setup · JSX · Componentes</p>
+        </div>
+        <div class="card card-green" style="text-align: center;">
+          <p style="font-size: 1.4em; font-weight: 800; color: var(--green); margin-bottom: 0.2em;">2</p>
+          <h3 style="font-size: 0.75em; margin-bottom: 0.3em;">Estado y eventos</h3>
+          <p style="font-size: 0.5em; color: var(--muted);">Props · useState · Eventos · Formularios</p>
+        </div>
+        <div class="card card-gold" style="text-align: center;">
+          <p style="font-size: 1.4em; font-weight: 800; color: var(--orange); margin-bottom: 0.2em;">3</p>
+          <h3 style="font-size: 0.75em; margin-bottom: 0.3em;">Listas y proyectos</h3>
+          <p style="font-size: 0.5em; color: var(--muted);">Render condicional · Listas · Composición · Ejercicios</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: center; gap: 1.5rem; justify-content: center; margin-bottom: 0.3em;">
+        <span style="font-size: 2.8em;">⚛️</span>
+        <h2 style="margin: 0;">¿Qué es React?</h2>
+      </div>
+      <div class="card card-react" style="margin-bottom: 0.6em;">
+        <p style="font-size: 0.8em;">React es una <strong>biblioteca de JavaScript</strong> creada por <strong>Meta (Facebook)</strong> en 2013 para construir interfaces de usuario que se actualizan automáticamente cuando los datos cambian.</p>
+      </div>
+      <div class="card" style="margin-bottom: 0.6em;">
+        <p style="font-size: 0.7em;">📌 Escribís HTML y lógica en un mismo archivo. React se encarga de mostrar y sincronizar todo en pantalla sin que toques el DOM manualmente.</p>
+      </div>
+      <div class="card" style="margin-bottom: 0.3em;">
+        <p style="font-size: 0.55em; color: var(--muted);">
+          <strong>Línea de tiempo:</strong> 2011 nace en Facebook · 2013 open source · 2019 Hooks · 2024 React 19 · 2026 domina el mercado con ~70%
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>✅ 4 razones para aprender React</h2>
+      <div class="grid-2" style="margin-top: 0.5em; font-size: 0.7em;">
+        <div class="card card-react">
+          <p style="font-size: 1.2em; font-weight: 800; color: var(--react);">#1 del mundo</p>
+          <p style="color: var(--muted);">~70% de cuota de mercado entre frameworks JS. 5.3 millones de sitios activos.</p>
+        </div>
+        <div class="card card-green">
+          <p style="font-size: 1.2em; font-weight: 800; color: var(--green);">Comunidad enorme</p>
+          <p style="color: var(--muted);">25M+ descargas semanales en npm. Soluciones para todo: ruteo, estado, formularios.</p>
+        </div>
+        <div class="card card-gold">
+          <p style="font-size: 1.2em; font-weight: 800; color: var(--orange);">Componentes</p>
+          <p style="color: var(--muted);">Código reutilizable. Escribís una vez, usás en mil lugares. Mantenible y escalable.</p>
+        </div>
+        <div class="card" style="border-left-color: #9b59b6;">
+          <p style="font-size: 1.2em; font-weight: 800; color: #9b59b6;">React Native</p>
+          <p style="color: var(--muted);">Saber React te da la base para apps mobile. Mismos conceptos, distinta plataforma.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🏢 Empresas que usan React</h2>
+      <div class="company-grid">
+        <ul>
+          <li><strong>Meta</strong> — Facebook, Instagram, WhatsApp Web</li>
+          <li><strong>Netflix</strong> — Plataforma web completa</li>
+          <li><strong>Airbnb</strong> — Búsqueda, perfiles, reservas</li>
+          <li><strong>Uber</strong> — Dashboard de conductores</li>
+          <li><strong>Spotify</strong> — Web player</li>
+        </ul>
+        <ul>
+          <li><strong>Discord</strong> — App de escritorio (Electron)</li>
+          <li><strong>TikTok</strong> — Web app</li>
+          <li><strong>X (Twitter)</strong> — Web app completa</li>
+          <li><strong>Pinterest</strong> — Feed visual</li>
+          <li><strong>Microsoft</strong> — Office 365, Teams web</li>
+        </ul>
+        <ul>
+          <li><strong>GitHub</strong> — Partes de la interfaz</li>
+          <li><strong>NY Times</strong> — CMS y sitio principal</li>
+          <li><strong>Cloudflare</strong> — Dashboard</li>
+          <li><strong>WhatsApp Web</strong> — 100% React</li>
+          <li><strong>Yahoo Mail</strong> — Web app</li>
+        </ul>
+      </div>
+      <div style="margin-top: 0.4em; display: flex; justify-content: center; gap: 0.4em; flex-wrap: wrap;">
+        <span class="badge badge-s1">5.3M+ sitios activos</span>
+        <span class="badge badge-s1">25M+ descargas / semana</span>
+        <span class="badge badge-s1">~70% del mercado frontend</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>💼 Demanda laboral 2026</h2>
+      <div class="stat-grid" style="margin-bottom: 0.6em;">
+        <div>
+          <div class="stat-number">6.500+</div>
+          <div class="stat-label">ofertas en Glassdoor (EE.UU.)</div>
+        </div>
+        <div>
+          <div class="stat-number">6.000+</div>
+          <div class="stat-label">ofertas en NodeFlair (global)</div>
+        </div>
+        <div>
+          <div class="stat-number" style="color: var(--orange);">65+</div>
+          <div class="stat-label">ofertas en Computrabajo (Argentina)</div>
+        </div>
+      </div>
+      <table>
+        <tr><th>Seniority</th><th>EE.UU. (anual)</th><th>Argentina (mensual)</th></tr>
+        <tr><td><span class="badge badge-s1">Junior</span></td><td>$80K — $100K USD</td><td>$1.5M — $2.5M ARS</td></tr>
+        <tr><td><span class="badge badge-s2">Semi-Senior</span></td><td>$100K — $140K USD</td><td>$2.5M — $4M ARS</td></tr>
+        <tr><td><span class="badge badge-s3">Senior</span></td><td>$140K — $185K+ USD</td><td>Remote: $40K — $100K USD/año</td></tr>
+      </table>
+      <div class="card card-gold fragment" style="margin-top: 0.4em; font-size: 0.6em;">
+        <p>React tiene 13 años en el mercado, lo usan las empresas más grandes, y su demanda se mantiene estable. No es una tecnología de nicho ni una moda pasajera.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>⚙️ ¿Cómo funciona React?</h2>
+      <p style="font-size: 0.65em; color: var(--muted); margin-bottom: 0.5em;">Solo un concepto clave para arrancar:</p>
+      <div class="card card-react" style="margin-bottom: 0.5em;">
+        <p style="font-size: 0.7em;">React mantiene un <strong>Virtual DOM</strong>: una representación liviana del HTML en JavaScript. Cuando los datos cambian, React compara la versión nueva con la anterior y actualiza <strong>solo las partes que cambiaron</strong> en el DOM real.</p>
+      </div>
+      <div class="principle-flow">
+        <span class="step">📦 Estado cambia</span>
+        <span class="arrow">→</span>
+        <span class="step">🔄 React recalcula</span>
+        <span class="arrow">→</span>
+        <span class="step">🔍 Compara cambios</span>
+        <span class="arrow">→</span>
+        <span class="step" style="border-color: rgba(46,204,113,0.3);">⚡ Actualiza solo lo distinto</span>
+      </div>
+      <div class="card card-gold fragment" style="margin-top: 0.5em; font-size: 0.6em;">
+        <p>💡 No necesitás memorizar esto ahora. Solo recordá: si algo no se actualiza en pantalla, es porque React no detectó el cambio (casi siempre es porque modificaste el estado incorrectamente).</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>⚡ Setup — 5 minutos</h2>
+      <div class="code-window">
+        <div class="bar">
+          <span class="r"></span><span class="y"></span><span class="g"></span>
+          <span class="title">terminal</span>
+        </div>
+        <pre><code># 1. Descargá Node.js LTS (22.x) desde nodejs.org
+#    Siguiente → Siguiente → Listo.
+
+# 2. Verificá la instalación:
+node --version    # v22.x.x
+npm --version     # 10.x.x
+
+# 3. Creá el proyecto con Vite:
+pnpm create vite mi-app-react --template react
+# (o con npm: npm create vite@latest mi-app-react -- --template react)
+
+# 4. Ejecutá el proyecto:
+cd mi-app-react
+pnpm install
+pnpm dev</code></pre>
+      </div>
+      <div class="card card-green fragment" style="margin-top: 0.4em;">
+        <p style="font-size: 0.65em;">✅ Abrí <strong>http://localhost:5173/</strong> y ya tenés React funcionando.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>📁 Estructura del proyecto</h2>
+      <pre style="width: fit-content; margin: 0 auto; font-size: 0.6em;"><code>
+  mi-app-react/
+  ├── node_modules/         # Dependencias (no modificar)
+  ├── public/               # Archivos estáticos
+  ├── src/                  # 📝 Código fuente — acá trabajamos
+  │   ├── App.jsx           #     Componente raíz
+  │   ├── App.css
+  │   ├── index.css
+  │   └── main.jsx          #     Punto de entrada
+  ├── index.html            # HTML principal
+  ├── package.json          # Scripts y dependencias
+  └── vite.config.js        # Configuración de Vite
+      </code></pre>
+      <div class="card card-gold" style="margin-top: 0.5em; font-size: 0.6em;">
+        <p>El 90% del tiempo trabajamos dentro de <strong>src/</strong>. El resto ya viene configurado.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🧱 Componentes — el corazón de React</h2>
+      <div class="card card-react" style="margin-bottom: 0.5em;">
+        <p style="font-size: 0.7em;">Un componente es una <strong>función que devuelve HTML</strong>. Es la unidad básica de construcción en React, como un ladrillo en una construcción.</p>
+      </div>
+      <div class="grid-2" style="font-size: 0.65em;">
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Saludo.jsx</span></div>
+            <pre><code>function Saludo() {
+  return &lt;h1&gt;Hola, mundo 👋&lt;/h1&gt;;
+}
+
+export default Saludo;</code></pre>
+          </div>
+          <div class="card card-green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.55em;">✅ 4 líneas. Una función. Eso es un componente.</p>
+          </div>
+        </div>
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">App.jsx</span></div>
+            <pre><code>import Saludo from './Saludo';
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Saludo /&gt;
+      &lt;Saludo /&gt;
+      &lt;Saludo /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+          <div class="card card-gold" style="margin-top: 0.3em;">
+            <p style="font-size: 0.55em;">🔄 El mismo componente reutilizado 3 veces.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📏 Reglas de los componentes</h2>
+      <div class="grid-3" style="margin-top: 0.5em;">
+        <div class="card card-react" style="text-align: center;">
+          <p style="font-size: 1.5em; font-weight: 800; color: var(--react);">1.</p>
+          <p style="font-size: 0.6em; font-weight: 700;">Nombre con mayúscula</p>
+          <p style="font-size: 0.5em; color: var(--muted);"><code>Saludo</code> → componente<br/><code>saludo</code> → HTML</p>
+        </div>
+        <div class="card card-green" style="text-align: center;">
+          <p style="font-size: 1.5em; font-weight: 800; color: var(--green);">2.</p>
+          <p style="font-size: 0.6em; font-weight: 700;">Un solo elemento raíz</p>
+          <p style="font-size: 0.5em; color: var(--muted);">Usá <code>&lt;&gt;&lt;/&gt;</code> (Fragment) si necesitás varios</p>
+        </div>
+        <div class="card card-gold" style="text-align: center;">
+          <p style="font-size: 1.5em; font-weight: 800; color: var(--orange);">3.</p>
+          <p style="font-size: 0.6em; font-weight: 700;">Exportar para importar</p>
+          <p style="font-size: 0.5em; color: var(--muted);"><code>export default</code> para usarlo en otros archivos</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: center; gap: 1rem; justify-content: center; margin-bottom: 0.3em;">
+        <span style="font-size: 2.5em;">🎨</span>
+        <h2 style="margin: 0;">JSX</h2>
+      </div>
+      <p style="font-size: 0.65em; color: var(--muted); margin-bottom: 0.4em;">JSX es una extensión de sintaxis que permite escribir HTML dentro de JavaScript. Las llaves <code>{ }</code> abren una "ventana" a JavaScript.</p>
+      <div class="code-window" style="font-size: 0.65em;">
+        <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Tarjeta.jsx</span></div>
+        <pre><code>function Tarjeta() {
+  const nombre = 'Martina';
+  const edad = 22;
+
+  return (
+    &lt;div className="tarjeta"&gt;
+      &lt;h1&gt;{nombre}&lt;/h1&gt;
+      &lt;p&gt;Edad: {edad}&lt;/p&gt;
+      &lt;p&gt;El año que viene: {edad + 1}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+      <div class="card card-react" style="margin-top: 0.4em;">
+        <p style="font-size: 0.6em;">💡 Las llaves <code>{ }</code> ejecutan cualquier expresión de JavaScript: variables, operaciones aritméticas, funciones, ternarios.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>⚠️ Diferencias HTML vs JSX</h2>
+      <table>
+        <tr><th>HTML</th><th>JSX</th><th>Motivo</th></tr>
+        <tr><td><code>class=""</code></td><td><code>className=""</code></td><td><code>class</code> es palabra reservada en JS</td></tr>
+        <tr><td><code>for=""</code></td><td><code>htmlFor=""</code></td><td><code>for</code> es palabra reservada en JS</td></tr>
+        <tr><td><code>style="color:red"</code></td><td><code style="font-size:0.75em;">{{color:'red'}}</code></td><td>JSX recibe un objeto JavaScript</td></tr>
+        <tr><td><code>onclick="fn()"</code></td><td><code>onClick={fn}</code></td><td>Se pasa la función, no un string</td></tr>
+        <tr><td><code>autofocus</code></td><td><code>autoFocus</code></td><td>camelCase en atributos</td></tr>
+        <tr><td><code>tabindex="0"</code></td><td><code>tabIndex={0}</code></td><td>camelCase en atributos</td></tr>
+      </table>
+      <div class="card card-gold" style="margin-top: 0.5em; font-size: 0.55em;">
+        <p>Regla general: <strong>camelCase</strong> y <strong>valores con llaves</strong> cuando no sean strings. Las primeras veces te vas a olvidar, pero con la práctica se vuelve automático.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SESIÓN 2                                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <section data-session="2">
+      <h2>📦 Props — datos entre componentes</h2>
+      <p style="font-size: 0.65em; color: var(--muted); margin-bottom: 0.4em;">Las props son los <strong>argumentos</strong> que recibe un componente. Así como una función recibe parámetros, un componente recibe props.</p>
+      <div class="grid-2" style="font-size: 0.65em;">
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Tarjeta.jsx</span></div>
+            <pre><code>function Tarjeta({ nombre, edad }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{nombre}&lt;/h3&gt;
+      &lt;p&gt;{edad} años&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">App.jsx</span></div>
+            <pre><code>function App() {
+  return (
+    &lt;div&gt;
+      &lt;Tarjeta nombre="Ana" edad={25} /&gt;
+      &lt;Tarjeta nombre="Luis" edad={30} /&gt;
+      &lt;Tarjeta nombre="Sofía" edad={22} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 0.3em; text-align: center; font-size: 0.6em;">
+        ⬇️ Los datos fluyen <strong class="highlight-react">de padre a hijo</strong>
+      </div>
+    </section>
+
+    <section>
+      <h2>📎 Props: valores por defecto y children</h2>
+      <div class="grid-2" style="font-size: 0.65em;">
+        <div>
+          <div class="card card-gold" style="margin-bottom: 0.3em;">
+            <p style="font-size: 0.7em; font-weight: 700;">Valores por defecto</p>
+          </div>
+          <div class="code-window">
+            <pre><code>function Boton({ texto = "Click" }) {
+  return &lt;button&gt;{texto}&lt;/button&gt;;
+}
+
+// Si no pasás texto → muestra "Click"</code></pre>
+          </div>
+        </div>
+        <div>
+          <div class="card card-react" style="margin-bottom: 0.3em;">
+            <p style="font-size: 0.7em; font-weight: 700;">Prop especial: children</p>
+          </div>
+          <div class="code-window">
+            <pre><code>function Caja({ children }) {
+  return (
+    &lt;div className="bordeada"&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+&lt;Caja&gt;
+  &lt;p&gt;Todo esto es children&lt;/p&gt;
+&lt;/Caja&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div style="display: flex; align-items: center; gap: 1rem; justify-content: center; margin-bottom: 0.3em;">
+        <span style="font-size: 2.5em;">🔄</span>
+        <h2 style="margin: 0;">useState — estado local</h2>
+      </div>
+      <p style="font-size: 0.65em; color: var(--muted); margin-bottom: 0.4em;">El estado es la <strong>memoria</strong> del componente. Permite que el componente recuerde valores que pueden cambiar con el tiempo.</p>
+      <div class="code-window" style="font-size: 0.6em;">
+        <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Contador.jsx</span></div>
+        <pre><code>import { useState } from 'react';
+
+function Contador() {
+  const [contador, setContador] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;{contador}&lt;/p&gt;
+      &lt;button onClick={() =&gt; setContador(contador + 1)}&gt;+1&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+      <div class="card card-react" style="margin-top: 0.3em;">
+        <p style="font-size: 0.6em;"><code>useState</code> devuelve un par: el <strong class="highlight-react">valor actual</strong> y una <strong class="highlight-react">función para modificarlo</strong>. Nunca se asigna directamente, siempre se usa la función actualizadora.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🔑 Estructura de useState</h2>
+      <pre style="font-size: 0.55em; width: fit-content; margin: 0 auto;"><code>
+  const [contador, setContador] = useState(0);
+  //       ▲          ▲              ▲
+  //       │          │              └── valor inicial
+  //       │          └── función para actualizar (única forma de cambiar)
+  //       └── valor actual (solo lectura)
+      </code></pre>
+      <div class="comparison-row" style="margin-top: 0.8em; font-size: 0.65em;">
+        <div class="bad">
+          <div class="label">❌ Incorrecto</div>
+          <p><code>contador = 5;</code></p>
+          <p style="color: var(--muted); font-size: 0.9em;">React no detecta la asignación directa. La pantalla no se actualiza.</p>
+        </div>
+        <div class="good">
+          <div class="label">✅ Correcto</div>
+          <p><code>setContador(5);</code></p>
+          <p style="color: var(--muted); font-size: 0.9em;">React detecta el cambio y vuelve a renderizar el componente.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📝 Input controlado</h2>
+      <p style="font-size: 0.6em; color: var(--muted); margin-bottom: 0.3em;">Patrón fundamental: el valor del input está sincronizado con el estado de React.</p>
+      <div class="code-window" style="font-size: 0.6em;">
+        <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">NombreForm.jsx</span></div>
+        <pre><code>function NombreForm() {
+  const [nombre, setNombre] = useState('');
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        type="text"
+        value={nombre}
+        onChange={(e) =&gt; setNombre(e.target.value)}
+        placeholder="Escribí algo..."
+      /&gt;
+      &lt;p&gt;Escribiste: {nombre}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      </div>
+      <div class="card card-react" style="margin-top: 0.3em;">
+        <p style="font-size: 0.55em;"><strong>Flujo:</strong> usuario escribe → <code>onChange</code> captura el valor → <code>setNombre</code> actualiza el estado → React re-renderiza → el input muestra el nuevo valor.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>🖱️ Eventos</h2>
+      <div class="grid-2" style="font-size: 0.6em;">
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Evento simple</span></div>
+            <pre><code>function Boton() {
+  function handleClick() {
+    alert('Hiciste click');
+  }
+
+  return (
+    &lt;button onClick={handleClick}&gt;
+      Click
+    &lt;/button&gt;
+  );
+}
+
+// Sin paréntesis — se pasa
+// la función, no se la llama</code></pre>
+          </div>
+        </div>
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Con parámetros</span></div>
+            <pre><code>function Lista() {
+  const items = ['A', 'B', 'C'];
+
+  function elegir(item) {
+    alert(`Elegiste: ${item}`);
+  }
+
+  return (
+    &lt;ul&gt;
+      {items.map(i =&gt;
+        &lt;li key={i}
+          onClick={() =&gt; elegir(i)}
+        &gt;{i}&lt;/li&gt;
+      )}
+    &lt;/ul&gt;
+  );
+}
+
+// Usá () =&gt; fn(valor)
+// para pasar parámetros</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📋 Formulario completo</h2>
+      <div class="code-window" style="font-size: 0.6em;">
+        <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">Formulario.jsx</span></div>
+        <pre><code>function Formulario() {
+  const [email, setEmail] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault(); // Evita que la página recargue
+    alert(`Email ingresado: ${email}`);
+  }
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        type="email"
+        value={email}
+        onChange={(e) =&gt; setEmail(e.target.value)}
+        placeholder="tu@email.com"
+      /&gt;
+      &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+      </div>
+      <div class="card card-red" style="margin-top: 0.3em; font-size: 0.55em;">
+        ⚠️ <strong>e.preventDefault()</strong> es obligatorio en formularios. Sin esto, la página recarga y se pierde todo el estado.
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SESIÓN 3                                                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <section data-session="3">
+      <h2>🔀 Renderizado condicional</h2>
+      <p style="font-size: 0.6em; color: var(--muted); margin-bottom: 0.3em;">Mostrar contenido diferente según una condición.</p>
+      <div class="grid-2" style="font-size: 0.6em;">
+        <div>
+          <div class="card card-react" style="margin-bottom: 0.3em;">
+            <p style="font-size: 0.65em; font-weight: 700;">Con if / else</p>
+          </div>
+          <div class="code-window">
+            <pre><code>function Mensaje({ logeado }) {
+  if (logeado) {
+    return &lt;p&gt;Bienvenido 🎉&lt;/p&gt;;
+  }
+  return &lt;p&gt;Iniciá sesión 🔐&lt;/p&gt;;
+}</code></pre>
+          </div>
+        </div>
+        <div>
+          <div class="card card-gold" style="margin-bottom: 0.3em;">
+            <p style="font-size: 0.65em; font-weight: 700;">Con operador ternario</p>
+          </div>
+          <div class="code-window">
+            <pre><code>{producto.stock > 0
+  ? &lt;span&gt;✅ En stock&lt;/span&gt;
+  : &lt;span&gt;❌ Sin stock&lt;/span&gt;
+}</code></pre>
+          </div>
+          <div class="card card-green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; font-weight: 700;">Con AND lógico</p>
+          </div>
+          <div class="code-window">
+            <pre><code>{mensaje && &lt;div&gt;{mensaje}&lt;/div&gt;}
+// Si mensaje es null/undefined/vacío
+// → no se renderiza nada</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📋 Listas</h2>
+      <div class="code-window" style="font-size: 0.6em;">
+        <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span><span class="title">ListaTareas.jsx</span></div>
+        <pre><code>function ListaTareas() {
+  const tareas = [
+    { id: 1, texto: 'Estudiar React' },
+    { id: 2, texto: 'Practicar hooks' },
+    { id: 3, texto: 'Armar un proyecto' },
+  ];
+
+  return (
+    &lt;ul&gt;
+      {tareas.map(t =&gt; &lt;li key={t.id}&gt;{t.texto}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}</code></pre>
+      </div>
+      <div class="comparison-row" style="margin-top: 0.5em; font-size: 0.6em;">
+        <div class="bad">
+          <div class="label">❌ key={indice}</div>
+          <p style="color: var(--muted); font-size: 0.9em;">Si el orden de la lista cambia, React no puede identificar correctamente los elementos. Genera bugs difíciles de rastrear.</p>
+        </div>
+        <div class="good">
+          <div class="label">✅ key={id}</div>
+          <p style="color: var(--muted); font-size: 0.9em;">Usá un ID único y estable. React identifica cada elemento y solo actualiza lo necesario.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>🏗️ Composición de componentes</h2>
+      <p style="font-size: 0.6em; color: var(--muted); margin-bottom: 0.3em;">Componentes pequeños se combinan para formar interfaces complejas. Es la forma de trabajar en React.</p>
+      <div class="grid-2" style="font-size: 0.55em;">
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+            <pre><code>function Avatar({ url, nombre }) {
+  return &lt;img src={url}
+    alt={nombre} width={50} /&gt;;
+}
+
+function Info({ nombre, email }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{nombre}&lt;/h3&gt;
+      &lt;p&gt;{email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+        <div>
+          <div class="code-window">
+            <div class="bar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+            <pre><code>function TarjetaUsuario({ usuario }) {
+  return (
+    &lt;div style={{ display: 'flex',
+      gap: '1rem' }}&gt;
+      &lt;Avatar url={usuario.avatar}
+              nombre={usuario.nombre} /&gt;
+      &lt;Info nombre={usuario.nombre}
+            email={usuario.email} /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>💡 Buenas prácticas</h2>
+      <p style="font-size: 0.6em; color: var(--muted); margin-bottom: 0.5em;">Señales de que un componente debería dividirse:</p>
+      <div class="grid-2" style="font-size: 0.6em;">
+        <div class="card card-red">📏 Más de <strong>80 líneas</strong> de código</div>
+        <div class="card card-red">🎭 Maneja estados que <strong>no están relacionados</strong> entre sí</div>
+        <div class="card card-red">🧵 Mezcla <strong>lógica de negocio</strong> con <strong>presentación</strong></div>
+        <div class="card card-red">🤷 Es difícil ponerle un nombre porque hace "demasiadas cosas"</div>
+      </div>
+      <div class="card card-green fragment" style="margin-top: 0.5em; font-size: 0.6em;">
+        ✅ Cada componente debería hacer <strong>una sola cosa</strong>. Si no sabés cómo nombrarlo, probablemente sea porque hace demasiado. Dividilo.
+      </div>
+    </section>
+
+    <section>
+      <h2>🏋️ Ejercicios</h2>
+      <div class="exercise-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="ex-card ex-easy">
+          <div class="ex-title">🟢 Tarjeta de presentación</div>
+          <div class="ex-desc">Componente Tarjeta con nombre, edad, profesión y foto. Con estilo propio.</div>
+        </div>
+        <div class="ex-card ex-mid">
+          <div class="ex-title">🟡 Contador con límites</div>
+          <div class="ex-desc">Contador de 0 a 10. No baja de 0 ni pasa de 10. Mostrar mensaje en los límites.</div>
+        </div>
+        <div class="ex-card ex-mid">
+          <div class="ex-title">🟡 Conversor Celsius ↔ Fahrenheit</div>
+          <div class="ex-desc">Dos inputs sincronizados. °F = °C × 9/5 + 32. °C = (°F − 32) × 5/9</div>
+        </div>
+        <div class="ex-card ex-hard">
+          <div class="ex-title">🔴 Lista de tareas (TODO)</div>
+          <div class="ex-desc">Agregar · Checkbox · Eliminar · Tachar completadas · Filtrar por estado</div>
+        </div>
+      </div>
+      <div class="ex-card ex-hard" style="margin-top: 0.3em;">
+        <div class="ex-title">🔴 Buscador de productos</div>
+        <div class="ex-desc">Input de búsqueda + filtro por categoría + resultados en tiempo real + mensaje si no hay resultados</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>📚 Resumen</h2>
+      <table>
+        <tr><th>Concepto</th><th>Definición</th></tr>
+        <tr><td><strong>Componente</strong></td><td>Función que devuelve HTML (JSX)</td></tr>
+        <tr><td><strong>JSX</strong></td><td>HTML con JavaScript integrado mediante <code>{ }</code></td></tr>
+        <tr><td><strong>Props</strong></td><td>Datos que pasan de componente padre a hijo</td></tr>
+        <tr><td><strong>useState</strong></td><td>Memoria del componente. Al cambiar, React re-renderiza</td></tr>
+        <tr><td><strong>Eventos</strong></td><td>Se escriben en camelCase: <code>onClick={fn}</code></td></tr>
+        <tr><td><strong>Key</strong></td><td>Identificador único en listas. Siempre un ID, nunca el índice</td></tr>
+        <tr><td><strong>Composición</strong></td><td>Componentes pequeños se combinan para formar interfaces grandes</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <div style="font-size: 3.5em; margin-bottom: 0.2em;">⚛️</div>
+      <h1 style="font-size: 2.5em;">Manos al teclado</h1>
+      <p style="font-size: 0.8em; color: var(--muted); margin-top: 0.5em;">No hace falta entender todo para arrancar. React se aprende codeando.</p>
+      <div class="card card-react" style="margin-top: 1em; max-width: 500px; margin-left: auto; margin-right: auto;">
+        <p style="font-size: 0.8em;">Escribí código, rompelo, arreglalo. <strong>Así se aprende React.</strong></p>
+      </div>
+      <div style="margin-top: 1.5em; display: flex; justify-content: center; gap: 0.6em; flex-wrap: wrap; font-size: 0.5em;">
+        <span class="badge badge-s1">react.dev</span>
+        <span class="badge badge-s2">vite.dev</span>
+        <span class="badge badge-s3">pnpm.io</span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.5/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    hash: true,
+    transition: 'slide',
+    width: 1200,
+    height: 700,
+    margin: 0.08,
+  });
+
+  Reveal.on('slidechanged', event => {
+    const tag = document.getElementById('sessionTag');
+    const session = event.currentSlide.getAttribute('data-session');
+    if (session) {
+      tag.textContent = 'Sesión ' + session;
+      tag.className = 'session-tag s' + session;
+      tag.style.display = 'block';
+    } else {
+      tag.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
