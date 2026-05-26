@@ -1,4 +1,4 @@
-# 🚀 React desde Cero — Guía para Bootcamp
+# 🚀 React desde Cero
 
 > **Nivel:** Principiante absoluto  
 > **React 19 · Vite 6 · Node 22 LTS · pnpm 10**  
