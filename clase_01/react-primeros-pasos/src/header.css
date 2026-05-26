@@ -1,0 +1,11 @@
+header {
+   display: flex;
+   border: red solid 1px
+}
+
+header > ul {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   list-style: none;
+}
