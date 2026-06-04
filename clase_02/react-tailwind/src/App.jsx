@@ -1,20 +1,24 @@
-// Limpiar el componente App.jsx
-// Para empezar desde cero
-
-import Card from "./components/ui/Card"
-import Button from "./components/ui/Button"
+import Card from "./components/ui/Card";
+import ContactForm from "./components/ui/ContactForm";
+import Footer from "./components/ui/Footer";
+import Hero from "./components/ui/Hero";
+import Navbar from "./components/ui/Navbar";
+import Test from "./components/ui/Test";
 
 export default function App() {
   return (
-    <div>
-      <Card heading="GOLD EDITION"/>
-      <Card title="Este es otro prop" heading="MAX EDITION"/>
-      <Card title="Musica melomano" heading="SILVER EDITION"/>
-      <Card title="La mejor musica" heading="LIMITED EDITION"/>
-    
-      <Button txtButton="Haz click aqui"/>
-      <Button txtButton="Hola como estas"/>
-      <Button txtVuton="Adios" txtButton="ok"/>
+    <div className="bg-slate-50 text-slate-800 font-sans antialiased">
+      <Navbar />
+      <Hero />
+      <div className="flex">
+        <Card numero="1" titulo="Demo" descripcion="Descrip"/>
+        <Card descripcion="Una descripcion generica"/>
+        <Card />
+      </div>
+      <ContactForm />
+
+      <Test />
+      <Footer />
     </div>
   )
 }

@@ -1,14 +1,18 @@
-export default function Card({title, heading}){
+export default function Card({numero, titulo, descripcion}) {
    return (
-      <div className="flex bg-blue-950 rounded-3xl p-4 text-white gap-4">
-         <img className="rounded-2xl" src="https://thumbs.dreamstime.com/b/auriculares-negros-o-aud%C3%ADfonos-con-fondo-de-color-brillante-espacio-copia-para-texto-dise%C3%B1o-la-vista-superior-195162367.jpg"></img>
-         <div className="flex flex-col justify-center">
-            <span className="
-               w-fit bg-amber-600 p-1 rounded-md
-            ">{heading}</span>
-            <h2 className="text-3xl font-bold mt-2 mb-2">{title}</h2>
-            <p>Redescubre el sonido con una profundidad acustica iniguablable y acabado en cuero natural.</p>
+      <article className="rounded-xl bg-white shadow-sm border border-slate-200 overflow-hidden">
+         <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/058/144/254/small/beautiful-flowers-wallpaper-image-of-flowers-free-photo.jpg"
+            alt=""
+            className="w-full h-48 object-cover"
+         />
+         <div className="p-6">
+            <div className="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center mb-4">
+               <span className="text-indigo-600 text-lg font-bold">{numero || "0"}</span>
+            </div>
+            <h4 className="text-lg font-semibold text-slate-900">{titulo || "Titulo"}</h4>
+            <p className="mt-2 text-sm text-slate-500">{descripcion || "Descripcion"}</p>
          </div>
-      </div>
+      </article>
    )
 }
