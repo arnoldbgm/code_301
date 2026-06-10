@@ -187,17 +187,6 @@ useEffect(() => {
 ```
 
 Acá el efecto "depende" de `contador`. React lo ejecuta al montar, y cada vez que `contador` cambia de valor, lo vuelve a ejecutar.
-
-### ¿Y sin array?
-
-```jsx
-useEffect(() => {
-  console.log('corro en CADA render')
-}) // ← sin array
-```
-
-Sin array, el efecto corre en cada render. **Casi nunca querés esto.** Olvidate por ahora.
-
 ---
 
 El caso que más te va a importar en esta guía es el primero: `[]`.
