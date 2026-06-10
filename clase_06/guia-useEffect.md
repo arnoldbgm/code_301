@@ -185,8 +185,8 @@ useEffect(() => {
   document.title = `Click ${contador}`
 }, [contador])
 ```
-
-Acá el efecto "depende" de `contador`. React lo ejecuta al montar, y cada vez que `contador` cambia de valor, lo vuelve a ejecutar.
+> [!IMPORTANT]
+> useEffect se ejecuta cada vez que el componente cambia de valor.
 ---
 
 El caso que más te va a importar en esta guía es el primero: `[]`.
