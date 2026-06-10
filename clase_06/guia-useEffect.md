@@ -128,6 +128,10 @@ Esto es todo lo que necesitás saber de async/await para salir andando. Ahora ve
 
 # 2️⃣ `useEffect` — reaccionando a lo que pasa
 
+> [!TIP]
+> `useEffect` permite ejecutar acciones después del renderizado del componente y reaccionar a cambios en su estado o propiedades.
+
+
 ## El problema
 
 En el mundo de React, el render es **síncrono**. Pero pedir datos a una API es **asincrónico**. No podés poner un `await` adentro del componente:
