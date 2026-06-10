@@ -175,7 +175,8 @@ useEffect(() => {
 
 El array vacío se lee así: **"no dependés de nada"**. Como no depende de nada, React lo ejecuta una vez cuando el componente se monta y después **jamás lo vuelve a ejecutar**, sin importar cuántos re-renders haya.
 
-> Pensalo así: `[]` es "ejecutame al inicio y no me jodas más".
+> [!IMPORTANT]
+> Pensalo así: `[]` es "ejecutame al inicio y no me vuelvas a molestar más".
 
 ### Caso 2: `[valor]` — ejecutá esto cuando `valor` cambie
 
