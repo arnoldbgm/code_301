@@ -19,6 +19,61 @@
 | 7 | 🏋️ Reto: buscador de personajes |
 
 ---
+## ¿Qué es la sincronía?
+
+La **sincronía** es una forma de ejecución donde las tareas se realizan una después de otra. Cada tarea debe finalizar antes de que comience la siguiente.
+
+### Analogía del chef 🍕
+
+Imagina que eres un chef y debes preparar una pizza.
+
+1. Preparas la masa.
+2. La metes al horno.
+3. Te quedas esperando frente al horno hasta que termine de cocinarse.
+4. Recién cuando la pizza está lista, continúas con otra tarea.
+
+**Idea clave:** una tarea debe terminar para poder continuar con la siguiente.
+
+---
+
+## ¿Qué es la asincronía?
+
+La **asincronía** es la capacidad de ejecutar una tarea que puede tardar tiempo sin detener el resto del programa. Mientras esa tarea se resuelve, el código puede seguir ejecutándose y, cuando finaliza, se procesa su resultado.
+
+### Analogía del chef 🍕
+
+Imagina nuevamente que eres un chef.
+
+1. Preparas la pizza.
+2. La metes al horno.
+3. Mientras la pizza se cocina, preparas una ensalada o limpias la cocina.
+4. Cuando el horno avisa que la pizza está lista, vuelves a ella y la sirves.
+
+**Idea clave:** una tarea puede ejecutarse "por detrás" mientras seguimos realizando otras actividades.
+
+---
+
+## ¿Qué es una Promesa?
+
+Una **Promesa (Promise)** es un objeto que representa el resultado futuro de una operación asíncrona.
+
+### Analogía del chef 🍕
+
+Cuando metes la pizza al horno, este te entrega un aviso:
+
+> "Te avisaré cuando la pizza esté lista."
+
+Ese aviso es la **Promesa**.
+
+La promesa puede tener tres estados:
+
+- **Pendiente (Pending):** la pizza aún se está cocinando.
+- **Cumplida (Fulfilled):** la pizza está lista.
+- **Rechazada (Rejected):** ocurrió un problema y la pizza se quemó.
+
+**Idea clave:** una promesa es una garantía de que en el futuro obtendremos un resultado o un error.
+
+
 
 # 1️⃣ Async / Fetch — sacando datos del mundo real
 
@@ -73,6 +128,10 @@ Esto es todo lo que necesitás saber de async/await para salir andando. Ahora ve
 
 # 2️⃣ `useEffect` — reaccionando a lo que pasa
 
+> [!TIP]
+> `useEffect` permite ejecutar acciones después del renderizado del componente y reaccionar a cambios en su estado o propiedades.
+
+
 ## El problema
 
 En el mundo de React, el render es **síncrono**. Pero pedir datos a una API es **asincrónico**. No podés poner un `await` adentro del componente:
@@ -116,7 +175,8 @@ useEffect(() => {
 
 El array vacío se lee así: **"no dependés de nada"**. Como no depende de nada, React lo ejecuta una vez cuando el componente se monta y después **jamás lo vuelve a ejecutar**, sin importar cuántos re-renders haya.
 
-> Pensalo así: `[]` es "ejecutame al inicio y no me jodas más".
+> [!IMPORTANT]
+> Pensalo así: `[]` es "ejecutame al inicio y no me vuelvas a molestar más".
 
 ### Caso 2: `[valor]` — ejecutá esto cuando `valor` cambie
 
@@ -125,19 +185,8 @@ useEffect(() => {
   document.title = `Click ${contador}`
 }, [contador])
 ```
-
-Acá el efecto "depende" de `contador`. React lo ejecuta al montar, y cada vez que `contador` cambia de valor, lo vuelve a ejecutar.
-
-### ¿Y sin array?
-
-```jsx
-useEffect(() => {
-  console.log('corro en CADA render')
-}) // ← sin array
-```
-
-Sin array, el efecto corre en cada render. **Casi nunca querés esto.** Olvidate por ahora.
-
+> [!IMPORTANT]
+> useEffect se ejecuta cada vez que el componente cambia de valor.
 ---
 
 El caso que más te va a importar en esta guía es el primero: `[]`.
