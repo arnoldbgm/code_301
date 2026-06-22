@@ -1,5 +1,16 @@
 # SQL + SUPABASE
 
+<table>
+  <tr>
+    <td>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm21zwv1tLGwjUbU-jMafDw4LHLtCmZ3am23KG4_t4MyjB0c6hMYkblk7U&s=10" width="200" height="200" />
+    </td>
+    <td>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ4rkkWSQ4can76poMeZmqnQ4D4R6Q609-XS0eVZiMng&s=10" width="200" height="200" />
+    </td>
+  </tr>
+</table>
+
 ## Objetivo
 
 Comprender cómo se almacenan, relacionan y consultan los datos en una base de datos relacional usando PostgreSQL dentro de Supabase. Todo con la copa del mundo como cancha.
@@ -30,6 +41,8 @@ Es un lugar donde guardamos información de forma **organizada y permanente** pa
 - **Relación**: cuando dos tablas se conectan a través de una Foreign Key
 
 > Una base de datos bien diseñada evita datos repetidos y mantiene la información consistente.
+
+<img height="550" alt="image" src="https://github.com/user-attachments/assets/89f5e591-a9b7-4fc4-9fa4-1c3752f64756" />
 
 ---
 
