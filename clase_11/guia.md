@@ -1,55 +1,126 @@
-# 🎓 Curso Full Stack: Next.js + TypeScript + Prisma
+# 🧠 Guia — Next.js 16 + TypeScript + Prisma
 
-![Next.js](https://cdn.simpleicons.org/nextdotjs/000000) ![TypeScript](https://cdn.simpleicons.org/typescript/3178C6) ![Prisma](https://cdn.simpleicons.org/prisma/2D3748) ![Postman](https://cdn.simpleicons.org/postman/FF6C37)
+<p align="center">
+  <img src="https://cdn.simpleicons.org/nextdotjs/000000" alt="Next.js" height="80">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" height="80">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" height="80">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/prisma/2D3748" alt="Prisma" height="80">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/postman/FF6C37" alt="Postman" height="70">
+</p>
 
-Buenas causa. Bienvenido a este curso. Ya sabes HTML, CSS, JavaScript y React — perfecto, porque acá vamos a construir sobre eso, no desde cero en lo básico. Vamos a hacer aplicaciones reales, con backend propio, base de datos y todo el flujo completo. Nada de código de juguete.
+Buenas causa. Bienvenido al curso donde dejas de hacer "páginas" y empezás a hacer **aplicaciones reales**. Ya sabés HTML, CSS, JavaScript y React — perfecto, porque acá construimos sobre eso, no desde cero.
+
+Vamos a crear un backend propio con base de datos real, conectarlo con un frontend moderno, y pasar por TODO el flujo de una aplicación profesional. Nada de código de juguete.
 
 Reglas de la casa antes de empezar:
 
-- Todo se prueba en **Postman** apenas creas un endpoint. No hay "ya después lo pruebo". Se prueba YA.
-- Nada de atajos raros: acá escribimos código explícito, con `for` tradicional y variables acumuladoras. Si algo se puede escribir en 3 líneas crípticas o en 10 líneas claras, elegimos las 10. Tú tienes que **ver** qué está pasando.
-- Las validaciones se hacen con `try/catch` (el equivalente en TypeScript a `try/except`), no con trucos caseros.
-- Cada tema tiene una **Demo** (yo codeo en vivo, la solución queda a la vista) y un **Reto** (tú lo intentas, la solución está oculta en un desplegable — no la mires antes de sudar un poco).
+- Todo se prueba en **Postman** apenas creás un endpoint. No hay "ya después lo pruebo". Se prueba YA.
+- Nada de atajos raros: acá escribimos código explícito, con `for` tradicional y variables acumuladoras. Si algo se puede escribir en 3 líneas crípticas o en 10 líneas claras, elegimos las 10. Tiene que **verse** qué está pasando.
+- Las validaciones se hacen con `try/catch`, no con trucos caseros.
+- Cada tema tiene una **Demo** (yo codeo, la solución queda a la vista) y un **Reto** (lo intentás vos, la solución está oculta en un desplegable — no la mires antes de sudar un rato).
 
-Dale, empezamos.
+Dale, arrancamos.
 
 ---
 
-## Bloque 1: El App Router de Next.js
+## 0. Setup — crear el proyecto desde cero
 
-![Next.js](https://cdn.simpleicons.org/nextdotjs/000000)
+Antes de escribir UNA sola línea de lógica, necesitamos el proyecto parado. Si no sabés hacer esto sin ayuda, aprendételo de memoria porque lo vas a hacer cientos de veces en tu carrera.
 
-### Teoría
+```bash
+npx create-next-app@latest nextjs-prisma --typescript --tailwind --eslint --app --src-dir
+```
 
-Next.js tiene dos formas de organizar rutas: el **Pages Router** (viejo, basado en la carpeta `pages/`) y el **App Router** (el actual, basado en la carpeta `app/`). Acá SOLO usamos App Router. Es el estándar profesional hoy.
+| Flag | Que hace |
+|------|----------|
+| `--typescript` | TypeScript configurado y listo |
+| `--tailwind` | Tailwind CSS incluido |
+| `--eslint` | ESLint con reglas de Next.js |
+| `--app` | App Router (NO el pages router viejo) |
+| `--src-dir` | Codigo dentro de `src/`, mas ordenado |
 
-La idea central: **cada carpeta dentro de `app/` es un segmento de ruta**, y el archivo `page.tsx` dentro de esa carpeta es lo que se renderiza en esa URL.
+```bash
+cd nextjs-prisma
+```
+
+**Tailwind CSS v4 ya viene configurado.** No necesitás `tailwind.config.js`. El archivo `src/app/globals.css` importa Tailwind directo:
+
+```css
+/* src/app/globals.css */
+@import "tailwindcss";
+```
+
+Y el PostCSS (`postcss.config.mjs`) usa el plugin `@tailwindcss/postcss`:
+
+```js
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+export default config;
+```
+
+No toques estos archivos. Ya están listos. Las clases de Tailwind (como `px-2`, `bg-blue-500`, `text-red-500`) funcionan en cualquier componente del proyecto sin configuración extra.
+
+```bash
+npm run dev
+```
+
+Andá a `http://localhost:3000`. Si ves la página de bienvenida de Next.js, estás listo. No sigas hasta que tengas eso funcionando.
+
+**Estructura del proyecto:**
 
 ```
-app/
+src/
+  app/
+    layout.tsx       → layout raiz (header, footer, etc.)
+    page.tsx         → pagina de inicio
+    globals.css      → estilos globales (Tailwind v4 importado aca)
+```
+
+---
+
+## 1. El App Router de Next.js
+
+<p align="center">
+  <img src="https://cdn.simpleicons.org/nextdotjs/000000" alt="Next.js" height="50">
+</p>
+
+### Que es y por que existe?
+
+Next.js tiene DOS formas de organizar rutas: el **Pages Router** (viejo, basado en archivos dentro de `pages/`) y el **App Router** (el actual, basado en carpetas dentro de `app/`). Aca SOLO usamos App Router. Es el estandar profesional desde 2024.
+
+La idea es simple: **cada carpeta dentro de `app/` es un segmento de ruta**, y el archivo `page.tsx` dentro de esa carpeta es lo que se renderiza en esa URL.
+
+```
+src/app/
   page.tsx          → ruta "/"
   productos/
     page.tsx        → ruta "/productos"
     [id]/
-      page.tsx      → ruta "/productos/123" (ruta dinámica)
+      page.tsx      → ruta "/productos/123" (ruta dinamica)
   layout.tsx         → envuelve TODO lo de adentro
 ```
 
-Archivos especiales que tienes que conocer:
+Archivos especiales que tenes que conocer:
 
 | Archivo | Responsabilidad |
-|---|---|
+|---------|---------------|
 | `page.tsx` | Define el contenido visible de una ruta |
-| `layout.tsx` | Envuelve páginas hijas, se mantiene entre navegaciones (por ejemplo un header) |
-| `loading.tsx` | Se muestra mientras la página carga datos |
-| `route.ts` | Define un endpoint de API (lo vemos en el Bloque 4) |
+| `layout.tsx` | Envuelve paginas hijas, se mantiene entre navegaciones (header, sidebar) |
+| `loading.tsx` | Se muestra mientras la pagina carga datos |
 
-### Demo (A)
+### Demo (A) — Estructura basica
 
-Creamos una estructura básica:
+Creamos un layout raiz que envuelve todo, y dos paginas.
 
 ```tsx
-// app/layout.tsx
+// src/app/layout.tsx
 import "./globals.css";
 
 export default function RootLayout({
@@ -61,7 +132,7 @@ export default function RootLayout({
     <html lang="es">
       <body>
         <header>
-          <h1>Mi Curso de Next.js</h1>
+          <h1>Mi Curso de Next.js 16</h1>
         </header>
         {children}
       </body>
@@ -71,30 +142,32 @@ export default function RootLayout({
 ```
 
 ```tsx
-// app/page.tsx
+// src/app/page.tsx
 export default function HomePage() {
-  return <p>Bienvenido a la página de inicio.</p>;
+  return <p>Bienvenido a la pagina de inicio.</p>;
 }
 ```
 
 ```tsx
-// app/productos/page.tsx
+// src/app/productos/page.tsx
 export default function ProductosPage() {
   return <p>Acá van a estar los productos.</p>;
 }
 ```
 
-Corres `npm run dev`, entras a `localhost:3000` y luego a `localhost:3000/productos`. Fíjate cómo el header del `layout.tsx` se mantiene en las dos.
+Corrés `npm run dev`, entrás a `localhost:3000` y después a `localhost:3000/productos`. Fíjate cómo el header del `layout.tsx` aparece en las dos rutas — el layout envuelve todo, no se redibuja al navegar.
 
-### Reto (B)
+### Reto (B) — Ruta contacto + ruta dinamica
 
-Crea una ruta `/contacto` que muestre un formulario simple (solo el HTML, sin lógica todavía) y una ruta dinámica `/productos/[id]` que muestre el `id` que viene en la URL usando `params`.
+Crea una ruta `/contacto` que muestre un formulario simple (solo HTML, sin lógica) y una ruta dinámica `/productos/[id]` que muestre el ID que viene en la URL.
+
+**IMPORTANTE para Next.js 16:** los `params` ahora son `Promise`, hay que usar `await`.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```tsx
-// app/contacto/page.tsx
+// src/app/contacto/page.tsx
 export default function ContactoPage() {
   return (
     <form>
@@ -107,13 +180,15 @@ export default function ContactoPage() {
 ```
 
 ```tsx
-// app/productos/[id]/page.tsx
-export default function ProductoDetallePage({
+// src/app/productos/[id]/page.tsx
+export default async function ProductoDetallePage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <p>Estás viendo el producto con id: {params.id}</p>;
+  const { id } = await params;
+
+  return <p>Estas viendo el producto con id: {id}</p>;
 }
 ```
 
@@ -122,284 +197,187 @@ export default function ProductoDetallePage({
 ### Errores comunes
 
 - Poner `page.tsx` fuera de una carpeta con el nombre correcto y preguntarse por qué no aparece la ruta.
-- Olvidar que `layout.tsx` necesita renderizar `{children}`, si no, tu página nunca aparece.
+- Olvidar que `layout.tsx` necesita renderizar `{children}` — sin eso no se ve nada.
 - Confundir carpetas normales con carpetas de ruta dinámica `[id]` (los corchetes son obligatorios, no decorativos).
+- **En Next.js 16:** olvidar `await params` — si accedés a `params.id` sin await, TypeScript te marca error y la app falla en runtime.
 
 ### Resumen del bloque
 
 - El App Router usa carpetas dentro de `app/` como rutas.
-- `page.tsx` es el contenido, `layout.tsx` es el envoltorio persistente.
-- Las rutas dinámicas se crean con `[nombre]`.
+- `page.tsx` es el contenido visible, `layout.tsx` es el envoltorio persistente.
+- Las rutas dinámicas se crean con `[nombre]` y los params se leen con `await`.
 
 ---
 
-## Bloque 2: Server Components vs Client Components
+## 2. Consumir APIs con `fetch`
 
-### Teoría
+### Que es y por que es util?
 
-Esto es LO MÁS IMPORTANTE de todo Next.js moderno, prestá atención.
+Tu aplicación Next.js puede pedirle datos a otras APIs del mundo. Como los componentes corren en el servidor, el `fetch` se hace desde ahí — sin exponer nada al navegador y sin los problemas de CORS que tenías en React puro.
 
-Por defecto, **todo componente en el App Router es un Server Component**. Se ejecuta en el servidor, nunca llega su código JavaScript al navegador, y por eso puede hacer cosas como consultar una base de datos directamente o leer archivos del servidor.
+**Profe dice:** "En React puro, el navegador hace el fetch, muestra un loader, espera, y recién ahí pinta los datos. Acá es al revés: el servidor hace el fetch, arma el HTML completo con los datos, y te lo manda listo. La página llega terminada al navegador."
 
-Un **Client Component** es uno que necesita interactividad del navegador: `useState`, `useEffect`, `onClick`, formularios controlados, etc. Para convertirlo, ponés `"use client"` en la primera línea del archivo.
-
-| | Server Component | Client Component |
-|---|---|---|
-| Dónde corre | Servidor | Navegador |
-| Puede usar `useState`/`useEffect` | No | Sí |
-| Puede hacer `fetch` a una base de datos directo | Sí | No (tiene que pasar por un endpoint) |
-| Afecta el bundle de JS | No | Sí, suma peso |
-
-La estrategia profesional: usa Server Components por defecto y solo bajás a Client Component la parte mínima que realmente necesita interactividad. No marques todo el archivo como `"use client"` por pereza.
-
-### Demo (A)
-
-```tsx
-// app/productos/page.tsx  (Server Component, sin "use client")
-async function obtenerProductos() {
-  // esto podría ser una consulta a base de datos, más adelante con Prisma
-  return [
-    { id: 1, nombre: "Teclado mecánico" },
-    { id: 2, nombre: "Mouse inalámbrico" },
-  ];
-}
-
-export default async function ProductosPage() {
-  const productos = await obtenerProductos();
-
-  return (
-    <ul>
-      {(() => {
-        const elementos = [];
-        for (let i = 0; i < productos.length; i = i + 1) {
-          const producto = productos[i];
-          elementos.push(<li key={producto.id}>{producto.nombre}</li>);
-        }
-        return elementos;
-      })()}
-    </ul>
-  );
-}
-```
-
-Fíjate: NO usé `.map()` para renderizar la lista con un atajo funcional escondido, armé un `for` tradicional con una variable acumuladora (`elementos`). Sé que se ve más largo. Así es como vas a entender exactamente qué está pasando en cada vuelta del ciclo.
-
-Ahora, el botón de "agregar al carrito" SÍ necesita estado, entonces ese pedazo lo aislamos:
-
-```tsx
-// components/BotonAgregarCarrito.tsx
-"use client";
-
-import { useState } from "react";
-
-export default function BotonAgregarCarrito() {
-  const [agregado, setAgregado] = useState(false);
-
-  function manejarClick() {
-    setAgregado(true);
-  }
-
-  return (
-    <button onClick={manejarClick}>
-      {agregado ? "¡Agregado!" : "Agregar al carrito"}
-    </button>
-  );
-}
-```
-
-### Reto (B)
-
-Toma el `ProductosPage` de la demo y agrégale, a cada producto, el `BotonAgregarCarrito`. La página sigue siendo Server Component, solo el botón es Client Component.
-
-<details>
-<summary>Ver solución</summary>
-
-```tsx
-// app/productos/page.tsx
-import BotonAgregarCarrito from "@/components/BotonAgregarCarrito";
-
-async function obtenerProductos() {
-  return [
-    { id: 1, nombre: "Teclado mecánico" },
-    { id: 2, nombre: "Mouse inalámbrico" },
-  ];
-}
-
-export default async function ProductosPage() {
-  const productos = await obtenerProductos();
-  const elementos = [];
-
-  for (let i = 0; i < productos.length; i = i + 1) {
-    const producto = productos[i];
-    elementos.push(
-      <li key={producto.id}>
-        {producto.nombre}
-        <BotonAgregarCarrito />
-      </li>
-    );
-  }
-
-  return <ul>{elementos}</ul>;
-}
-```
-
-</details>
-
-### Errores comunes
-
-- Poner `"use client"` en el layout raíz "para que no falle nada" — esto convierte TODO tu proyecto en Client Component y perdés todos los beneficios de Next.js.
-- Intentar usar `useState` en un Server Component (te va a tirar error).
-- Intentar hacer una consulta a base de datos dentro de un Client Component (no se puede, ahí necesitás un endpoint).
-
-### Resumen del bloque
-
-- Server Component es el default: rápido, seguro, sin JS extra al cliente.
-- Client Component es la excepción: solo para lo que necesita interactividad.
-- Se marca con `"use client"` en la primera línea del archivo.
-
----
-
-## Bloque 3: Consumir APIs con `fetch` en Server Components
-
-### Teoría
-
-Como los Server Components corren en el servidor, pueden hacer `fetch` directo a una API externa sin exponer nada al navegador — ni siquiera una API key, si la necesitaras.
-
-Next.js extiende el `fetch` nativo con opciones de caché propias:
+Next.js extiende el `fetch` nativo con opciones de caché:
 
 ```ts
-fetch(url, { cache: "force-cache" }); // cachea siempre (default)
-fetch(url, { cache: "no-store" });    // nunca cachea, pide fresco cada vez
+fetch(url, { cache: "force-cache" });  // cachea siempre (default)
+fetch(url, { cache: "no-store" });     // nunca cachea, siempre fresco
 fetch(url, { next: { revalidate: 60 } }); // cachea pero revalida cada 60s
 ```
 
-### Demo (A)
+### Demo (A) — Productos desde FakeStore API
+
+Vamos a usar la API pública [FakeStore API](https://fakestoreapi.com/products) que devuelve productos reales con título, precio, imagen, categoría y rating. Podés pegarle a la URL desde el navegador para ver la respuesta completa.
 
 ```tsx
-// app/clima/page.tsx
-interface RespuestaClima {
-  temperatura: number;
-  ciudad: string;
+// src/app/productos/page.tsx
+interface Producto {
+  id: number;
+  title: string;
+  price: number;
 }
 
-async function obtenerClima(): Promise<RespuestaClima> {
-  const respuesta = await fetch("https://api.ejemplo.com/clima/lima", {
+async function obtenerProductos(): Promise<Producto[]> {
+  const respuesta = await fetch("https://fakestoreapi.com/products", {
     cache: "no-store",
   });
 
   if (!respuesta.ok) {
-    throw new Error("No se pudo obtener el clima");
+    throw new Error("No se pudo obtener los productos");
   }
 
-  const datos: RespuestaClima = await respuesta.json();
+  const datos: Producto[] = await respuesta.json();
   return datos;
 }
 
-export default async function ClimaPage() {
+export default async function ProductosPage() {
   try {
-    const clima = await obtenerClima();
+    const productos = await obtenerProductos();
+
     return (
-      <p>
-        En {clima.ciudad} hay {clima.temperatura}°C
-      </p>
+      <ul>
+        {productos.map((p) => (
+          <li key={p.id}>
+            {p.title} — S/ {p.price}
+          </li>
+        ))}
+      </ul>
     );
-  } catch (error) {
-    return <p>No se pudo cargar el clima en este momento.</p>;
+  } catch {
+    return <p>No se pudieron cargar los productos.</p>;
   }
 }
 ```
 
-Fíjate que envolví todo en `try/catch`. Así se maneja un error en este curso — no con validaciones caseras revisando si el dato "parece" correcto.
+Fíjate en lo que NO usamos: no hay `useEffect`, no hay `useState`, no hay `isLoading`. El componente es `async` y hace `await` directo. Eso es posible porque esto corre en el servidor, no en el navegador (ya vamos a ver qué significa exactamente esto).
 
-### Reto (B)
+**Profe dice:** "Abri `https://fakestoreapi.com/products` en el navegador, despues corre la pagina. La respuesta es EXACTAMENTE la misma."
 
-Crea una página `/noticias` que consuma un endpoint público de noticias (podés inventar la URL de ejemplo) y muestre una lista de títulos usando `for` tradicional, con manejo de error con `try/catch`.
+### Reto (B) — Producto individual por ID
+
+Crea una ruta dinámica `/productos/[id]` que consuma `https://fakestoreapi.com/products/{id}` y muestre el título, precio, categoría y una imagen.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```tsx
-// app/noticias/page.tsx
-interface Noticia {
+// src/app/productos/[id]/page.tsx
+interface Producto {
   id: number;
-  titulo: string;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
 }
 
-async function obtenerNoticias(): Promise<Noticia[]> {
-  const respuesta = await fetch("https://api.ejemplo.com/noticias", {
-    next: { revalidate: 120 },
+async function obtenerProducto(id: string): Promise<Producto> {
+  const respuesta = await fetch(`https://fakestoreapi.com/products/${id}`, {
+    cache: "no-store",
   });
-
   if (!respuesta.ok) {
-    throw new Error("No se pudo obtener las noticias");
+    throw new Error("Producto no encontrado");
   }
-
-  const datos: Noticia[] = await respuesta.json();
-  return datos;
+  return respuesta.json();
 }
 
-export default async function NoticiasPage() {
+export default async function ProductoDetallePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   try {
-    const noticias = await obtenerNoticias();
-    const elementos = [];
+    const { id } = await params;
+    const producto = await obtenerProducto(id);
 
-    for (let i = 0; i < noticias.length; i = i + 1) {
-      elementos.push(<li key={noticias[i].id}>{noticias[i].titulo}</li>);
-    }
-
-    return <ul>{elementos}</ul>;
-  } catch (error) {
-    return <p>No se pudieron cargar las noticias.</p>;
+    return (
+      <div>
+        <h2>{producto.title}</h2>
+        <p>Precio: S/ {producto.price}</p>
+        <p>Categoria: {producto.category}</p>
+        <img src={producto.image} alt={producto.title} width="200" />
+      </div>
+    );
+  } catch {
+    return <p>Producto no encontrado.</p>;
   }
 }
 ```
+
+**Probá:** `http://localhost:3000/productos/1` y `http://localhost:3000/productos/5`
 
 </details>
 
 ### Errores comunes
 
-- Olvidar que `fetch` en el servidor no tiene los mismos límites de CORS que en el navegador (a veces confunden a los alumnos porque "en el navegador esto no andaba").
-- No manejar el caso `respuesta.ok === false` y asumir que el `.json()` siempre va a funcionar.
-- Usar `cache: "force-cache"` (el default) para datos que cambian todo el tiempo, y preguntarse por qué la información se ve "vieja".
+- Olvidar que `fetch` en el servidor NO tiene CORS (los alumnos vienen de hacer fetch en el navegador y se confunden).
+- No verificar `respuesta.ok` y asumir que `.json()` siempre funciona.
+- Usar `cache: "force-cache"` (el default) para datos cambiantes, y preguntarse por qué la info está "vieja".
 
 ### Resumen del bloque
 
-- `fetch` en Server Components se ejecuta en el servidor, seguro y sin exponer nada.
+- Los componentes de Next.js son Server Components por defecto: corren en el servidor.
+- Pueden usar `async/await` directo para hacer `fetch` sin `useEffect`.
 - Next.js agrega opciones de caché: `force-cache`, `no-store`, `revalidate`.
-- Todo fetch va envuelto en `try/catch`.
 
 ---
 
-## Bloque 4: Endpoints propios con `app/api` y `route.ts`
+## 3. Crear endpoints propios con `route.ts`
 
-### Teoría
+### Que es y por que ahora cambia todo?
 
-Hasta ahora consumimos APIs de otros. Ahora vamos a crear las nuestras. En el App Router, un endpoint se define con un archivo llamado exactamente `route.ts` dentro de una carpeta bajo `app/api/`.
+Hasta ahora consumimos APIs de otros. Ahora vamos a crear las NUESTRAS.
+
+**Profe dice:** "Hasta acá fuimos clientes. Ahora somos dueños del negocio. Vamos a crear nuestra propia API, con nuestros datos, nuestras reglas."
+
+En Next.js, un endpoint se define con un archivo llamado exactamente `route.ts` dentro de una carpeta bajo `app/api/`.
 
 ```
-app/
+src/app/
   api/
     productos/
-      route.ts     → maneja /api/productos
+      route.ts     → maneja /api/productos (GET, POST, etc.)
 ```
 
-Dentro de `route.ts` exportas funciones con el nombre del método HTTP: `GET`, `POST`, `PUT`, `DELETE`.
+Dentro de `route.ts` exportás funciones con el nombre del método HTTP: `GET`, `POST`, `PUT`, `DELETE`. Cada función recibe la petición y devuelve una respuesta JSON.
 
-### Demo (A)
+### Demo (A) — GET y POST con datos en memoria
+
+**Profe dice:** "Primero guardamos datos en un arreglo en memoria. Después le metemos base de datos. Paso a paso."
 
 ```ts
-// app/api/productos/route.ts
+// src/app/api/productos/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
 interface Producto {
   id: number;
-  nombre: string;
+  title: string;
+  price: number;
 }
 
-// Simulamos una "base de datos" en memoria por ahora
 let productos: Producto[] = [
-  { id: 1, nombre: "Teclado mecánico" },
-  { id: 2, nombre: "Mouse inalámbrico" },
+  { id: 1, title: "Fjallraven Backpack", price: 109.95 },
+  { id: 2, title: "Mens Casual T-Shirt", price: 22.30 },
 ];
 
 export async function GET() {
@@ -409,102 +387,256 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const cuerpo = await request.json();
-
-    if (!cuerpo.nombre) {
+    if (!cuerpo.title || !cuerpo.price) {
       return NextResponse.json(
-        { error: "El campo nombre es obligatorio" },
+        { error: "Los campos title y price son obligatorios" },
         { status: 400 }
       );
     }
-
+    const nuevoId = productos.length > 0
+      ? productos[productos.length - 1].id + 1
+      : 1;
     const nuevoProducto: Producto = {
-      id: productos.length + 1,
-      nombre: cuerpo.nombre,
+      id: nuevoId,
+      title: cuerpo.title,
+      price: cuerpo.price,
     };
-
     productos.push(nuevoProducto);
-
     return NextResponse.json(nuevoProducto, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: "Cuerpo de la petición inválido" },
+      { error: "Cuerpo de la peticion invalido" },
       { status: 400 }
     );
   }
 }
 ```
 
-**CUANDO CREAS ESTE ENDPOINT, LO PRIMERO QUE HACES ES ABRIR POSTMAN.** No lo consumas desde el navegador todavía, no escribas el frontend todavía. Postman primero, siempre.
+**CUANDO CREAS ESTE ENDPOINT, LO PRIMERO QUE HACES ES ABRIR POSTMAN.** No lo consumas desde el navegador todavía. Postman primero, siempre.
 
-En Postman:
-1. Creas una petición `GET` a `http://localhost:3000/api/productos` → deberías ver el arreglo.
-2. Creas una petición `POST` a la misma URL, con body tipo `raw` → `JSON`, mandando `{ "nombre": "Monitor 24 pulgadas" }` → deberías recibir el producto creado con status `201`.
-3. Probás mandar un POST sin el campo `nombre` → deberías recibir el error `400`.
+| Metodo | URL | Body | Codigo esperado |
+|--------|-----|------|:----------------:|
+| `GET` | `http://localhost:3000/api/productos` | - | 200 — arreglo con 2 productos |
+| `POST` | `http://localhost:3000/api/productos` | `{"title": "Monitor 24", "price": 599}` | 201 — producto creado |
+| `POST` | `http://localhost:3000/api/productos` | `{}` | 400 — "title y price son obligatorios" |
 
-### Reto (B)
+### Reto (B) — Agregar ruta dinamica con PUT y DELETE
 
-Agrega los métodos `PUT` (actualizar por `id`, viene en el body) y `DELETE` (eliminar por `id`, viene en el body) al mismo `route.ts`. Probá los cuatro métodos en Postman antes de seguir.
+Crea `src/app/api/productos/[id]/route.ts` con `GET`, `PUT` y `DELETE`. Los datos se siguen guardando en el arreglo en memoria.
+
+**RECORDATORIO:** en Next.js 16 los `params` son `Promise`. Hay que `await`earlos.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```ts
-export async function PUT(request: NextRequest) {
+// src/app/api/productos/[id]/route.ts
+import { NextRequest, NextResponse } from "next/server";
+
+interface Producto {
+  id: number;
+  title: string;
+  price: number;
+}
+
+let productos: Producto[] = [
+  { id: 1, title: "Fjallraven Backpack", price: 109.95 },
+  { id: 2, title: "Mens Casual T-Shirt", price: 22.30 },
+];
+
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const cuerpo = await request.json();
-
-    if (!cuerpo.id || !cuerpo.nombre) {
-      return NextResponse.json(
-        { error: "Se necesita id y nombre" },
-        { status: 400 }
-      );
-    }
-
-    let encontrado = false;
-
-    for (let i = 0; i < productos.length; i = i + 1) {
-      if (productos[i].id === cuerpo.id) {
-        productos[i].nombre = cuerpo.nombre;
-        encontrado = true;
-      }
-    }
-
-    if (!encontrado) {
+    const { id } = await params;
+    const producto = productos.find((p) => p.id === Number(id));
+    if (!producto) {
       return NextResponse.json(
         { error: "Producto no encontrado" },
         { status: 404 }
       );
     }
-
-    return NextResponse.json({ mensaje: "Producto actualizado" });
-  } catch (error) {
+    return NextResponse.json(producto);
+  } catch {
     return NextResponse.json(
-      { error: "Cuerpo de la petición inválido" },
+      { error: "Error al obtener el producto" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const cuerpo = await request.json();
+    if (!cuerpo.title) {
+      return NextResponse.json(
+        { error: "El campo title es obligatorio" },
+        { status: 400 }
+      );
+    }
+    const producto = productos.find((p) => p.id === Number(id));
+    if (!producto) {
+      return NextResponse.json(
+        { error: "Producto no encontrado" },
+        { status: 404 }
+      );
+    }
+    producto.title = cuerpo.title;
+    if (cuerpo.price) producto.price = cuerpo.price;
+    return NextResponse.json({ mensaje: "Producto actualizado" });
+  } catch {
+    return NextResponse.json(
+      { error: "Cuerpo de la peticion invalido" },
       { status: 400 }
     );
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
-    const cuerpo = await request.json();
-    const productosFiltrados: Producto[] = [];
-
-    for (let i = 0; i < productos.length; i = i + 1) {
-      if (productos[i].id !== cuerpo.id) {
-        productosFiltrados.push(productos[i]);
-      }
+    const { id } = await params;
+    const indice = productos.findIndex(p => p.id === Number(id));
+    if (indice === -1) {
+      return NextResponse.json(
+        { error: "Producto no encontrado" },
+        { status: 404 }
+      );
     }
-
-    productos = productosFiltrados;
-
+    productos.splice(indice, 1);
     return NextResponse.json({ mensaje: "Producto eliminado" });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: "Cuerpo de la petición inválido" },
-      { status: 400 }
+      { error: "Error al eliminar el producto" },
+      { status: 500 }
     );
   }
+}
+```
+
+**Probá todo en Postman:**
+
+| Metodo | URL | Body | Codigo |
+|--------|-----|------|:------:|
+| `GET` | `/api/productos/1` | - | 200 |
+| `GET` | `/api/productos/99` | - | 404 |
+| `PUT` | `/api/productos/1` | `{"title": "Fjallraven Backpack Pro", "price": 129.95}` | 200 |
+| `DELETE` | `/api/productos/2` | - | 200 |
+
+</details>
+
+### Errores comunes
+
+- Nombrar el archivo `routes.ts` o `index.ts` en vez de `route.ts` — el endpoint no responde.
+- Olvidar `await request.json()` y tratar de leer el body directo.
+- No devolver códigos de status correctos (`400`, `404`, `500` segun corresponda).
+- En Next.js 16: no `await`ear los `params` — TypeError en runtime.
+
+### Resumen del bloque
+
+- `route.ts` define un endpoint; exportás `GET`, `POST`, `PUT`, `DELETE`.
+- Todo endpoint se prueba PRIMERO en Postman.
+- Las validaciones van con `try/catch` y códigos de status apropiados.
+
+---
+
+## 4. Server Components vs Client Components
+
+### Que son y por que importan AHORA?
+
+Hasta acá escribiste componentes con `async/await`, `fetch` directo, `for` loops... y todo funcionó. Sabés por qué? Porque **todo componente en el App Router es un Server Component por defecto**.
+
+**Profe dice:** "Hasta ahora no necesitaste interactividad. Pero ahora vas a querer un boton que haga algo cuando le haces click, o un input que guarde lo que escribis. Ahi te va a explotar. Y justo por eso existe esta distincion."
+
+Un **Server Component** se ejecuta en el servidor. Su JavaScript NUNCA llega al navegador. Puede consultar la base de datos, leer archivos, hacer fetch directo.
+
+Un **Client Component** se ejecuta en el navegador. Necesita `"use client"` en la primera linea. Puede usar `useState`, `useEffect`, `onClick`, `onSubmit`.
+
+| | Server Component | Client Component |
+|---|---|---|
+| Donde corre | Servidor | Navegador |
+| Puede usar `useState` / `useEffect` | No | Si |
+| Puede hacer `fetch` a BD directo | Si | No (necesita endpoint) |
+| Afecta el bundle de JS del usuario | No | Si, suma peso |
+| Puede usar `async/await` directo | Si | No |
+
+**Profe dice:** "Server Component es el default. Solo bajas a Client Component la parte MINIMA que necesita interactividad. No marques todo como `'use client'` por flojo."
+
+### Demo (A) — Server Component puro + Client Component
+
+```tsx
+// src/app/productos/page.tsx (Server Component)
+async function obtenerProductos() {
+  return [
+    { id: 1, title: "Fjallraven Backpack", price: 109.95 },
+    { id: 2, title: "Mens Casual T-Shirt", price: 22.30 },
+  ];
+}
+
+export default async function ProductosPage() {
+  const productos = await obtenerProductos();
+  return <ul>{productos.map((p) => <li key={p.id}>{p.title}</li>)}</ul>;
+}
+```
+
+Ahora queremos un boton con `useState`. Necesita ser Client Component:
+
+```tsx
+// src/components/BotonAgregarCarrito.tsx
+"use client";
+import { useState } from "react";
+
+export default function BotonAgregarCarrito() {
+  const [agregado, setAgregado] = useState(false);
+  function manejarClick() {
+    setAgregado(true);
+  }
+  return (
+    <button onClick={manejarClick}>
+      {agregado ? "Agregado!" : "Agregar al carrito"}
+    </button>
+  );
+}
+```
+
+**Profe dice:** "El Server Component se encarga de los datos. El Client Component se encarga de la interaccion. Cada uno hace lo que sabe hacer."
+
+### Reto (B) — Server + Client combinados
+
+Toma el `ProductosPage` y agregale `BotonAgregarCarrito` a cada producto. La pagina SIGUE siendo Server Component.
+
+<details>
+<summary>Ver solucion</summary>
+
+```tsx
+import BotonAgregarCarrito from "@/components/BotonAgregarCarrito";
+
+async function obtenerProductos() {
+  return [
+    { id: 1, title: "Fjallraven Backpack", price: 109.95 },
+    { id: 2, title: "Mens Casual T-Shirt", price: 22.30 },
+  ];
+}
+
+export default async function ProductosPage() {
+  const productos = await obtenerProductos();
+  return (
+    <ul>
+      {productos.map((p) => (
+        <li key={p.id}>
+          {p.title}
+          <BotonAgregarCarrito />
+        </li>
+      ))}
+    </ul>
+  );
 }
 ```
 
@@ -512,32 +644,222 @@ export async function DELETE(request: NextRequest) {
 
 ### Errores comunes
 
-- Nombrar el archivo distinto a `route.ts` (por ejemplo `routes.ts` o `index.ts`) y no entender por qué el endpoint no responde.
-- Olvidar el `await request.json()` y tratar de leer el body directo.
-- No devolver códigos de status correctos (todo `200` aunque sea un error — un profesional siempre usa `400`, `404`, `500` según corresponda).
-- Consumir el endpoint desde el frontend ANTES de probarlo en Postman. Acá eso está prohibido.
+- Poner `"use client"` en el layout raiz — perdes TODOS los beneficios de rendimiento.
+- Intentar usar `useState` en un Server Component — error de compilacion.
+- Consultar la BD dentro de un Client Component — no se puede, necesitas un endpoint.
 
 ### Resumen del bloque
 
-- `route.ts` define un endpoint; exportas `GET`, `POST`, `PUT`, `DELETE`.
-- Todo endpoint se prueba primero en Postman.
-- Las validaciones van con `try/catch` y códigos de status apropiados.
+- Server Component es el default: rapido, seguro, cero JS extra al cliente.
+- Client Component es la excepcion: solo para lo que necesita interactividad.
+- Se marca con `"use client"` en la primera linea del archivo.
 
 ---
 
-## Bloque 5: Prisma desde cero
+## 5. Frontend — consumir la API desde la interfaz
 
-![Prisma](https://cdn.simpleicons.org/prisma/2D3748)
+### Que es y por que ahora?
 
-### Teoría
+Ya tenes una API funcionando. La probaste en Postman y funciona. Ahora conectamos el frontend.
 
-Prisma es un **ORM** (Object-Relational Mapper): te deja hablarle a tu base de datos con código TypeScript en vez de escribir SQL a mano. Trabaja con tres piezas:
+Regla simple:
+- **Leer datos**: Server Component con `fetch` a tu propia API.
+- **Crear o eliminar**: Client Component con `fetch` en un evento.
 
-1. **Schema** (`schema.prisma`): describís tus tablas como si fueran modelos de TypeScript.
-2. **Migraciones**: Prisma traduce ese schema a comandos SQL reales y los aplica a la base de datos.
-3. **Prisma Client**: un cliente autogenerado, con autocompletado, que usás en tu código para consultar.
+**Profe dice:** "Los datos se leen desde el servidor. Las acciones se ejecutan desde el navegador. Cada cosa en su lugar."
 
-### Instalación
+### Demo (A) — Lista de productos + formulario
+
+Server Component que lee productos:
+
+```tsx
+// src/app/productos/page.tsx
+import FormularioProducto from "@/components/FormularioProducto";
+
+interface Producto {
+  id: number;
+  title: string;
+  price: number;
+}
+
+async function obtenerProductos(): Promise<Producto[]> {
+  const respuesta = await fetch("http://localhost:3000/api/productos", {
+    cache: "no-store",
+  });
+  if (!respuesta.ok) {
+    throw new Error("Error al obtener productos");
+  }
+  return respuesta.json();
+}
+
+export default async function ProductosPage() {
+  let productos: Producto[] = [];
+  try {
+    productos = await obtenerProductos();
+  } catch {
+    return (
+      <p className="text-red-500">
+        Error al cargar productos. Verifica que el servidor este corriendo.
+      </p>
+    );
+  }
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-4">Productos</h2>
+      <ul className="mb-6">
+        {productos.map((p) => (
+          <li key={p.id} className="py-1">
+            {p.title} — S/ {p.price}
+          </li>
+        ))}
+      </ul>
+      <h3 className="text-lg font-semibold mb-2">Agregar producto</h3>
+      <FormularioProducto />
+    </div>
+  );
+}
+```
+
+Client Component con formulario:
+
+```tsx
+// src/components/FormularioProducto.tsx
+"use client";
+import { useState } from "react";
+
+export default function FormularioProducto() {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [error, setError] = useState("");
+
+  async function manejarEnvio(evento: React.FormEvent) {
+    evento.preventDefault();
+    try {
+      const respuesta = await fetch("/api/productos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, price: Number(price) }),
+      });
+      if (!respuesta.ok) {
+        const datos = await respuesta.json();
+        throw new Error(datos.error || "No se pudo crear");
+      }
+      setTitle("");
+      setPrice("");
+      setError("");
+      window.location.reload();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al crear");
+    }
+  }
+
+  return (
+    <form onSubmit={manejarEnvio} className="flex gap-2 items-end">
+      <div>
+        <label htmlFor="title" className="block text-sm font-medium">Title</label>
+        <input id="title" value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Ej: Teclado RGB"
+          className="border px-3 py-2 rounded" />
+      </div>
+      <div>
+        <label htmlFor="price" className="block text-sm font-medium">Price</label>
+        <input id="price" value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          placeholder="Ej: 99.99"
+          type="number" step="0.01"
+          className="border px-3 py-2 rounded" />
+      </div>
+      <button type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Crear
+      </button>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+    </form>
+  );
+}
+```
+
+**Profe dice:** "Server Component usa URL absoluta (`http://localhost:3000/...`) porque corre en el servidor. Client Component usa ruta relativa (`/api/...`) porque corre en el navegador."
+
+### Reto (B) — Boton eliminar
+
+Agrega un boton "Eliminar" a cada producto usando `DELETE /api/productos/{id}`.
+
+<details>
+<summary>Ver solucion</summary>
+
+```tsx
+// src/components/BotonEliminarProducto.tsx
+"use client";
+
+export default function BotonEliminarProducto({ id }: { id: number }) {
+  async function manejarClick() {
+    try {
+      const respuesta = await fetch(`/api/productos/${id}`, {
+        method: "DELETE",
+      });
+      if (!respuesta.ok) throw new Error("No se pudo eliminar");
+      window.location.reload();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Error al eliminar");
+    }
+  }
+  return (
+    <button onClick={manejarClick}
+      className="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600 ml-2">
+      Eliminar
+    </button>
+  );
+}
+```
+
+Y en `ProductosPage`, importalo y agregalo dentro del `.map()`:
+
+```tsx
+import BotonEliminarProducto from "@/components/BotonEliminarProducto";
+// dentro del .map():
+<li key={p.id} className="py-1">
+  {p.title} — S/ {p.price}
+  <BotonEliminarProducto id={p.id} />
+</li>
+```
+
+</details>
+
+### Errores comunes
+
+- Olvidar `"Content-Type": "application/json"` en el `fetch` POST.
+- Confundir URL absoluta (Server Component) con relativa (Client Component).
+- Poner `"use client"` en toda la pagina en vez de aislar solo el componente interactivo.
+
+### Resumen del bloque
+
+- Lectura: Server Component + `fetch` a tu API.
+- Escritura: Client Component + `fetch` en evento.
+- URL absoluta en servidor, relativa en navegador.
+- Todo `fetch` envuelto en `try/catch`.
+
+---
+
+## 6. Base de datos con Prisma
+
+<p align="center">
+  <img src="https://cdn.simpleicons.org/prisma/2D3748" alt="Prisma" height="50">
+</p>
+
+### Que es Prisma y por que ahora?
+
+Los productos viven en un arreglo en memoria. Apenas reinicias el servidor, todo desaparece. Eso no es una aplicación real.
+
+**Prisma** es un ORM: te deja hablarle a tu base de datos con TypeScript en vez de SQL.
+
+Tres piezas:
+1. **Schema** — describis tus tablas como modelos.
+2. **Migraciones** — Prisma traduce el schema a SQL y lo ejecuta.
+3. **Prisma Client** — cliente autogenerado para consultar.
+
+### Instalacion
 
 ```bash
 npm install prisma --save-dev
@@ -545,21 +867,19 @@ npm install @prisma/client
 npx prisma init
 ```
 
-Esto crea una carpeta `prisma/` con un `schema.prisma`, y un archivo `.env` con una variable `DATABASE_URL`.
+Crea `prisma/schema.prisma` y `.env` con `DATABASE_URL`.
 
-### Configuración
+### Configuracion
 
 ```env
-# .env
 DATABASE_URL="postgresql://usuario:password@localhost:5432/mi_base"
 ```
 
-Cambia esto por los datos reales de tu base (podés usar PostgreSQL local, o un servicio como Neon o Supabase para no instalar nada local).
+Usa PostgreSQL local, Neon, Supabase o Railway.
 
 ### Schema
 
 ```prisma
-// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -571,8 +891,8 @@ datasource db {
 
 model Producto {
   id        Int      @id @default(autoincrement())
-  nombre    String
-  precio    Float
+  title     String
+  price     Float
   creadoEn  DateTime @default(now())
 }
 ```
@@ -583,14 +903,10 @@ model Producto {
 npx prisma migrate dev --name crear_producto
 ```
 
-Esto crea la tabla real en tu base de datos y genera el Prisma Client actualizado.
-
 ### Prisma Client
 
-Se recomienda crear una única instancia reutilizable (para no abrir mil conexiones):
-
 ```ts
-// lib/prisma.ts
+// src/lib/prisma.ts
 import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as unknown as {
@@ -604,14 +920,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 ```
 
-Esto evita el error clásico de "demasiadas conexiones a la base de datos" que pasa cuando Next.js recarga en modo desarrollo y creás un `PrismaClient` nuevo cada vez.
+### Reto (B) — Modelo Categoria
 
-### Reto (B)
-
-Agrega un segundo modelo `Categoria` con `id`, `nombre`, y corre la migración correspondiente.
+Agrega `Categoria` con `id` y `nombre`. Corre la migracion.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```prisma
 model Categoria {
@@ -628,97 +942,69 @@ npx prisma migrate dev --name crear_categoria
 
 ### Errores comunes
 
-- Crear un `new PrismaClient()` en cada archivo distinto en vez de reutilizar una instancia — agota las conexiones de la base de datos.
-- Olvidar correr `npx prisma migrate dev` después de editar el schema, y preguntarse por qué la tabla "no existe".
-- Poner la contraseña de la base de datos directo en el schema en vez de usar `.env`.
+- Crear `new PrismaClient()` en cada archivo — se agotan las conexiones.
+- Olvidar `npx prisma migrate dev` despues de editar el schema.
+- Poner la contraseña directo en el schema en vez de `.env`.
 
 ### Resumen del bloque
 
 - Prisma = schema + migraciones + client.
-- El schema describe tus tablas en TypeScript-like.
-- Las migraciones aplican esos cambios a la base real.
-- El client se instancia una sola vez y se reutiliza.
+- El client se instancia UNA sola vez.
 
 ---
 
-## Bloque 6: CRUD con Prisma
+## 7. CRUD con Prisma
 
-### Teoría
-
-Con el Prisma Client ya generado, las operaciones básicas son métodos directos sobre el modelo:
-
-| Operación | Método |
-|---|---|
+| Operacion | Metodo |
+|-----------|--------|
 | Leer todos | `findMany()` |
 | Leer uno | `findUnique()` |
 | Crear | `create()` |
 | Actualizar | `update()` |
 | Eliminar | `delete()` |
 
-### Demo (A)
+### Demo (A) — Las 5 operaciones
 
 ```ts
 import { prisma } from "@/lib/prisma";
 
-// Leer todos
 async function listarProductos() {
-  const productos = await prisma.producto.findMany();
-  return productos;
+  return await prisma.producto.findMany();
 }
 
-// Leer uno
 async function obtenerProductoPorId(id: number) {
-  const producto = await prisma.producto.findUnique({
-    where: { id: id },
-  });
-  return producto;
+  return await prisma.producto.findUnique({ where: { id } });
 }
 
-// Crear
-async function crearProducto(nombre: string, precio: number) {
-  const nuevoProducto = await prisma.producto.create({
-    data: { nombre: nombre, precio: precio },
-  });
-  return nuevoProducto;
+async function crearProducto(title: string, price: number) {
+  return await prisma.producto.create({ data: { title, price } });
 }
 
-// Actualizar
-async function actualizarProducto(id: number, nombre: string) {
-  const productoActualizado = await prisma.producto.update({
-    where: { id: id },
-    data: { nombre: nombre },
-  });
-  return productoActualizado;
+async function actualizarProducto(id: number, title: string, price?: number) {
+  const data: { title?: string; price?: number } = { title };
+  if (price !== undefined) data.price = price;
+  return await prisma.producto.update({ where: { id }, data });
 }
 
-// Eliminar
 async function eliminarProducto(id: number) {
-  const productoEliminado = await prisma.producto.delete({
-    where: { id: id },
-  });
-  return productoEliminado;
+  return await prisma.producto.delete({ where: { id } });
 }
 ```
 
-### Reto (B)
+### Reto (B) — Busqueda por nombre
 
-Escribe una función `buscarProductosPorNombre(texto: string)` usando `findMany` con un filtro `contains` sobre el campo `nombre`, envuelta en `try/catch`.
+Usa `findMany` con `contains`.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```ts
 async function buscarProductosPorNombre(texto: string) {
   try {
-    const productos = await prisma.producto.findMany({
-      where: {
-        nombre: {
-          contains: texto,
-        },
-      },
+    return await prisma.producto.findMany({
+      where: { title: { contains: texto } },
     });
-    return productos;
-  } catch (error) {
+  } catch {
     throw new Error("Error al buscar productos");
   }
 }
@@ -726,29 +1012,16 @@ async function buscarProductosPorNombre(texto: string) {
 
 </details>
 
-### Errores comunes
-
-- Usar `findUnique` con un campo que no es único ni la llave primaria (Prisma te va a tirar error de tipos).
-- Olvidar el `where` en `update` o `delete` — sin eso, Prisma no sabe cuál registro tocar.
-- No envolver las operaciones en `try/catch`: si el registro no existe, `update` y `delete` lanzan una excepción.
-
-### Resumen del bloque
-
-- `findMany`, `findUnique`, `create`, `update`, `delete` son el CRUD base de Prisma.
-- Todas son funciones `async`, todas se envuelven en `try/catch` cuando pueden fallar.
-
 ---
 
-## Bloque 7: Conectar Prisma con los endpoints de Next.js
+## 8. Conectar Prisma con los endpoints
 
-### Teoría
+Ahora reemplazamos el arreglo en memoria por Prisma. **El frontend no cambia.**
 
-Ahora unimos el Bloque 4 (endpoints) con el Bloque 6 (Prisma). En vez de guardar los productos en un arreglo en memoria, los guardamos de verdad en la base de datos.
-
-### Demo (A)
+### Demo (A) — GET y POST con Prisma
 
 ```ts
-// app/api/productos/route.ts
+// src/app/api/productos/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -756,7 +1029,7 @@ export async function GET() {
   try {
     const productos = await prisma.producto.findMany();
     return NextResponse.json(productos);
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Error al obtener productos" },
       { status: 500 }
@@ -767,23 +1040,17 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const cuerpo = await request.json();
-
-    if (!cuerpo.nombre || !cuerpo.precio) {
+    if (!cuerpo.title || !cuerpo.price) {
       return NextResponse.json(
-        { error: "nombre y precio son obligatorios" },
+        { error: "Los campos title y price son obligatorios" },
         { status: 400 }
       );
     }
-
     const nuevoProducto = await prisma.producto.create({
-      data: {
-        nombre: cuerpo.nombre,
-        precio: cuerpo.precio,
-      },
+      data: { title: cuerpo.title, price: Number(cuerpo.price) },
     });
-
     return NextResponse.json(nuevoProducto, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Error al crear el producto" },
       { status: 500 }
@@ -792,428 +1059,111 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-Ahora sí, PROBÁ ESTO EN POSTMAN antes de seguir. Un `GET` te debe traer lo que hay en la tabla real, y un `POST` te debe crear una fila real en la base de datos. Anda a ver la tabla con `npx prisma studio` para confirmarlo con tus propios ojos.
+**Profe dice:** "La API responde IGUAL que antes. El frontend ni se entera de que cambiamos la implementacion. Esa es la magia de una API bien disenada."
 
-### Reto (B)
+Verificá con Postman:
 
-Crea `app/api/productos/[id]/route.ts` con `GET` (traer uno), `PUT` (actualizar) y `DELETE` (eliminar), usando Prisma. Probá los tres en Postman.
+| Metodo | URL | Body | Codigo |
+|-------|-----|------|:------:|
+| `GET` | `/api/productos` | - | 200 |
+| `POST` | `/api/productos` | `{"title": "Monitor 24", "price": 599}` | 201 |
+
+Y con `npx prisma studio` los ves en la BD.
+
+### Reto (B) — Endpoint dinamico con Prisma
+
+Crea `src/app/api/productos/[id]/route.ts` con `GET`, `PUT` y `DELETE` usando Prisma.
 
 <details>
-<summary>Ver solución</summary>
+<summary>Ver solucion</summary>
 
 ```ts
-// app/api/productos/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const producto = await prisma.producto.findUnique({
-      where: { id: Number(params.id) },
+      where: { id: Number(id) },
     });
-
     if (!producto) {
-      return NextResponse.json(
-        { error: "Producto no encontrado" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
     }
-
     return NextResponse.json(producto);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Error al obtener el producto" },
-      { status: 500 }
-    );
+  } catch {
+    return NextResponse.json({ error: "Error al obtener el producto" }, { status: 500 });
   }
 }
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const cuerpo = await request.json();
-
     const productoActualizado = await prisma.producto.update({
-      where: { id: Number(params.id) },
-      data: { nombre: cuerpo.nombre, precio: cuerpo.precio },
+      where: { id: Number(id) },
+      data: { title: cuerpo.title, price: cuerpo.price },
     });
-
     return NextResponse.json(productoActualizado);
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Producto no encontrado" },
-      { status: 404 }
-    );
+  } catch {
+    return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
   }
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await prisma.producto.delete({
-      where: { id: Number(params.id) },
-    });
-
+    const { id } = await params;
+    await prisma.producto.delete({ where: { id: Number(id) } });
     return NextResponse.json({ mensaje: "Producto eliminado" });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Producto no encontrado" },
-      { status: 404 }
-    );
+  } catch {
+    return NextResponse.json({ error: "Producto no encontrado" }, { status: 404 });
   }
 }
 ```
 
 </details>
 
-### Errores comunes
+---
 
-- Olvidar que `params.id` llega como `string`, no `number` — hay que convertirlo con `Number()`.
-- No manejar el caso en que Prisma no encuentra el registro (`update`/`delete` lanzan excepción, no devuelven `null`).
-- Seguir probando desde el navegador en vez de Postman para métodos que no son `GET`.
+## Que construiste?
 
-### Resumen del bloque
+```
+src/app/productos/page.tsx        → Server Component: lista
+src/app/api/productos/route.ts    → GET + POST con Prisma
+src/app/api/productos/[id]/route.ts → GET + PUT + DELETE con Prisma
+src/components/FormularioProducto.tsx → Client Component: crear
+src/components/BotonEliminarProducto.tsx → Client Component: eliminar
+prisma/schema.prisma              → Modelos Producto y Categoria
+src/lib/prisma.ts                 → Instancia unica de Prisma Client
+```
 
-- Los endpoints ahora usan Prisma en vez de un arreglo en memoria.
-- `npx prisma studio` te deja ver la base de datos visualmente para confirmar que todo funciona.
-- Cada endpoint se prueba en Postman antes de tocar el frontend.
+**Hiciste:** App Router, fetch a APIs externas, API propia, Server/Client Components, frontend conectado, Prisma con BD real, y migracion de memoria a persistencia.
 
 ---
 
-## Bloque 8: Consumir los endpoints desde la interfaz con `fetch`
+## Tabla resumen
 
-### Teoría
-
-Ahora sí conectamos el frontend. Para **leer** datos al cargar la página, usamos un Server Component con `fetch` (como en el Bloque 3). Para **crear, actualizar o eliminar** desde una acción del usuario (un clic, un submit), necesitamos un Client Component, porque ahí sí hay interactividad.
-
-### Demo (A)
-
-```tsx
-// app/productos/page.tsx (Server Component: lee los datos)
-import FormularioProducto from "@/components/FormularioProducto";
-
-interface Producto {
-  id: number;
-  nombre: string;
-  precio: number;
-}
-
-async function obtenerProductos(): Promise<Producto[]> {
-  const respuesta = await fetch("http://localhost:3000/api/productos", {
-    cache: "no-store",
-  });
-
-  if (!respuesta.ok) {
-    throw new Error("Error al obtener productos");
-  }
-
-  return respuesta.json();
-}
-
-export default async function ProductosPage() {
-  const productos = await obtenerProductos();
-  const elementos = [];
-
-  for (let i = 0; i < productos.length; i = i + 1) {
-    const producto = productos[i];
-    elementos.push(
-      <li key={producto.id}>
-        {producto.nombre} - S/ {producto.precio}
-      </li>
-    );
-  }
-
-  return (
-    <div>
-      <ul>{elementos}</ul>
-      <FormularioProducto />
-    </div>
-  );
-}
-```
-
-```tsx
-// components/FormularioProducto.tsx
-"use client";
-
-import { useState } from "react";
-
-export default function FormularioProducto() {
-  const [nombre, setNombre] = useState("");
-  const [precio, setPrecio] = useState("");
-  const [error, setError] = useState("");
-
-  async function manejarEnvio(evento: React.FormEvent) {
-    evento.preventDefault();
-
-    try {
-      const respuesta = await fetch("/api/productos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre: nombre, precio: Number(precio) }),
-      });
-
-      if (!respuesta.ok) {
-        throw new Error("No se pudo crear el producto");
-      }
-
-      setNombre("");
-      setPrecio("");
-      setError("");
-      window.location.reload(); // versión simple, más adelante lo hacemos mejor
-    } catch (error) {
-      setError("Ocurrió un error al crear el producto");
-    }
-  }
-
-  return (
-    <form onSubmit={manejarEnvio}>
-      <input
-        value={nombre}
-        onChange={(evento) => setNombre(evento.target.value)}
-        placeholder="Nombre"
-      />
-      <input
-        value={precio}
-        onChange={(evento) => setPrecio(evento.target.value)}
-        placeholder="Precio"
-      />
-      <button type="submit">Crear</button>
-      {error && <p>{error}</p>}
-    </form>
-  );
-}
-```
-
-### Reto (B)
-
-Agrega un botón de "Eliminar" a cada producto en la lista, que haga `fetch` con método `DELETE` al endpoint correspondiente. Tiene que ser parte de un Client Component nuevo.
-
-<details>
-<summary>Ver solución</summary>
-
-```tsx
-// components/BotonEliminarProducto.tsx
-"use client";
-
-export default function BotonEliminarProducto({ id }: { id: number }) {
-  async function manejarClick() {
-    try {
-      const respuesta = await fetch(`/api/productos/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!respuesta.ok) {
-        throw new Error("No se pudo eliminar");
-      }
-
-      window.location.reload();
-    } catch (error) {
-      alert("Ocurrió un error al eliminar el producto");
-    }
-  }
-
-  return <button onClick={manejarClick}>Eliminar</button>;
-}
-```
-
-</details>
-
-### Errores comunes
-
-- Usar `window.location.reload()` como solución permanente (sirve para aprender, pero no es profesional — lo arreglamos en el Bloque 9).
-- Olvidar el header `"Content-Type": "application/json"` en el `fetch` con método `POST`, lo que hace que el servidor no pueda leer el body.
-- Llamar al endpoint con la URL absoluta `http://localhost:3000/...` desde un Client Component en vez de la ruta relativa `/api/...`.
-
-### Resumen del bloque
-
-- Lectura de datos: Server Component + `fetch`.
-- Escritura (crear/actualizar/eliminar): Client Component + `fetch` disparado por un evento.
-- Todo `fetch` envuelto en `try/catch`, con manejo de error visible para el usuario.
+| Bloque | Concepto clave | Archivos |
+|--------|---------------|----------|
+| 0 | Setup | `create-next-app`, Tailwind v4 |
+| 1 | App Router | `page.tsx`, `layout.tsx`, `[id]` |
+| 2 | Consumir APIs externas | `fetch` + `try/catch` |
+| 3 | Endpoints propios | `route.ts` + Postman |
+| 4 | Server vs Client Components | `"use client"` |
+| 5 | Frontend conectado | Server (leer) + Client (escribir) |
+| 6 | Prisma | schema + migrations + client |
+| 7 | CRUD con Prisma | `findMany`, `create`, `update`, `delete` |
+| 8 | Prisma + endpoints | Memoria → BD real |
 
 ---
 
-## Bloque 9: SWR y TanStack Query
-
-![TanStack Query](https://cdn.simpleicons.org/reactquery/FF4154)
-
-### Teoría
-
-En el bloque anterior usamos `window.location.reload()` para refrescar los datos después de crear o eliminar algo. Eso es un parche, no una solución. Acá es donde entran **SWR** y **TanStack Query**: librerías para manejar datos del lado del cliente con caché, revalidación automática, estados de carga y error ya resueltos.
-
-¿Cuándo conviene usarlas en vez de `fetch` manual?
-
-- Cuando necesitas que los datos se **revaliden solos** después de una mutación (crear/editar/eliminar), sin recargar la página entera.
-- Cuando tienes **múltiples componentes** pidiendo los mismos datos y no quieres duplicar peticiones (estas librerías comparten caché).
-- Cuando necesitas manejar **loading** y **error** de forma consistente en toda la app, sin repetir la misma lógica de `useState` en cada componente.
-
-Si tu app es chica y solo lees datos una vez por página, `fetch` manual en un Server Component (como venimos haciendo) es más que suficiente — no le metas una librería extra por moda.
-
-### Demo (A) — con TanStack Query
-
-Instalación:
-
-```bash
-npm install @tanstack/react-query
-```
-
-Configuración del provider:
-
-```tsx
-// components/Providers.tsx
-"use client";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
-
-export default function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-}
-```
-
-```tsx
-// app/layout.tsx
-import Providers from "@/components/Providers";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="es">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
-}
-```
-
-Uso en un Client Component:
-
-```tsx
-// components/ListaProductosClient.tsx
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
-
-interface Producto {
-  id: number;
-  nombre: string;
-  precio: number;
-}
-
-async function obtenerProductos(): Promise<Producto[]> {
-  const respuesta = await fetch("/api/productos");
-
-  if (!respuesta.ok) {
-    throw new Error("Error al obtener productos");
-  }
-
-  return respuesta.json();
-}
-
-export default function ListaProductosClient() {
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["productos"],
-    queryFn: obtenerProductos,
-  });
-
-  if (isLoading) {
-    return <p>Cargando productos...</p>;
-  }
-
-  if (isError) {
-    return <p>Ocurrió un error al cargar los productos.</p>;
-  }
-
-  const elementos = [];
-  const productos = data ?? [];
-
-  for (let i = 0; i < productos.length; i = i + 1) {
-    elementos.push(<li key={productos[i].id}>{productos[i].nombre}</li>);
-  }
-
-  return <ul>{elementos}</ul>;
-}
-```
-
-### Reto (B)
-
-Usando `useMutation` de TanStack Query, crea una función para eliminar un producto que, al terminar con éxito, invalide la query `["productos"]` para que la lista se refresque sola (sin `window.location.reload()`).
-
-<details>
-<summary>Ver solución</summary>
-
-```tsx
-"use client";
-
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-async function eliminarProducto(id: number) {
-  const respuesta = await fetch(`/api/productos/${id}`, {
-    method: "DELETE",
-  });
-
-  if (!respuesta.ok) {
-    throw new Error("No se pudo eliminar");
-  }
-}
-
-export default function BotonEliminarProducto({ id }: { id: number }) {
-  const queryClient = useQueryClient();
-
-  const mutacion = useMutation({
-    mutationFn: () => eliminarProducto(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["productos"] });
-    },
-  });
-
-  return (
-    <button onClick={() => mutacion.mutate()}>
-      {mutacion.isPending ? "Eliminando..." : "Eliminar"}
-    </button>
-  );
-}
-```
-
-</details>
-
-### Errores comunes
-
-- Meter TanStack Query o SWR en un Server Component (son librerías de cliente, necesitan `"use client"`).
-- Olvidar el `queryKey` o usar uno distinto en la query y en la invalidación — si no coinciden, la lista nunca se refresca.
-- Usar estas librerías para datos que solo se leen una vez y nunca cambian (ahí un `fetch` simple en el servidor es más que suficiente, no compliques).
-
-### Resumen del bloque
-
-- SWR y TanStack Query resuelven caché, revalidación y estados de loading/error del lado del cliente.
-- Se usan cuando hay mutaciones frecuentes que necesitan refrescar datos sin recargar la página.
-- No reemplazan al `fetch` en Server Components para lecturas simples.
-
----
-
-## 📋 Tabla resumen de conceptos cubiertos
-
-| Bloque | Concepto clave | Herramienta |
-|---|---|---|
-| 1 | App Router: carpetas = rutas | `page.tsx`, `layout.tsx` |
-| 2 | Server vs Client Components | `"use client"` |
-| 3 | Consumo de APIs externas | `fetch` + `try/catch` |
-| 4 | Endpoints propios | `app/api/.../route.ts` + Postman |
-| 5 | Prisma desde cero | schema, migraciones, client |
-| 6 | CRUD con Prisma | `findMany`, `findUnique`, `create`, `update`, `delete` |
-| 7 | Conectar Prisma con endpoints | `route.ts` + Prisma Client |
-| 8 | Consumir endpoints desde la UI | Server Component (leer) + Client Component (escribir) |
-| 9 | SWR / TanStack Query | `useQuery`, `useMutation` |
-
-Eso es todo por ahora, causa. Repasa cada bloque, no te saltees los Retos — ahí es donde realmente se aprende, no leyendo la solución de una. Nos vemos en el siguiente.
+<sub>Iconos: Simple Icons. Logos usados solo con fines educativos.</sub>
