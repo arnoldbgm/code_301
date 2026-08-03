@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ===== Colors ===== */
+  --color-background: #fdf8f8;
+  --color-on-background: #1c1b1c;
+  --color-surface: #fdf8f8;
+  --color-surface-dim: #ddd9d9;
+  --color-surface-bright: #fdf8f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3f2;
+  --color-surface-container: #f1eded;
+  --color-surface-container-high: #ebe7e7;
+  --color-surface-container-highest: #e5e2e1;
+  --color-on-surface: #1c1b1c;
+  --color-on-surface-variant: #47464b;
+  --color-inverse-surface: #313030;
+  --color-inverse-on-surface: #f4f0ef;
+  --color-outline: #77767b;
+  --color-outline-variant: #c8c5cb;
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b1b1e;
+  --color-on-primary-container: #858387;
+  --color-inverse-primary: #c8c5ca;
+  --color-secondary: #5d5e66;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e3e1ec;
+  --color-on-secondary-container: #63646c;
+  --color-tertiary: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  --color-surface-variant: #e5e2e1;
+  --color-primary-fixed: #e4e1e6;
+  --color-primary-fixed-dim: #c8c5ca;
+  --color-on-primary-fixed: #1b1b1e;
+  --color-on-primary-fixed-variant: #47464a;
+  --color-secondary-fixed: #e3e1ec;
+  --color-secondary-fixed-dim: #c6c5cf;
+  --color-on-secondary-fixed: #1a1b22;
+  --color-on-secondary-fixed-variant: #46464e;
+  --color-tertiary-fixed: #e8e2d9;
+  --color-tertiary-fixed-dim: #cbc6bd;
+  --color-on-tertiary-fixed: #1d1b16;
+  --color-on-tertiary-fixed-variant: #494640;
+  --color-tertiary-container: #1d1b16;
+  --color-on-tertiary-container: #88837c;
+
+  /* ===== Typography ===== */
+  --font-sans: "Geist", system-ui, sans-serif;
+
+  --font-display-lg: "Geist", system-ui, sans-serif;
+  --text-display-lg: 30px;
+  --text-display-lg-lh: 38px;
+  --text-display-lg-weight: 600;
+  --text-display-lg-tracking: -0.02em;
+
+  --font-headline-md: "Geist", system-ui, sans-serif;
+  --text-headline-md: 20px;
+  --text-headline-md-lh: 28px;
+  --text-headline-md-weight: 600;
+  --text-headline-md-tracking: -0.01em;
+
+  --font-body-base: "Geist", system-ui, sans-serif;
+  --text-body-base: 16px;
+  --text-body-base-lh: 24px;
+  --text-body-base-weight: 400;
+
+  --font-body-sm: "Geist", system-ui, sans-serif;
+  --text-body-sm: 14px;
+  --text-body-sm-lh: 20px;
+  --text-body-sm-weight: 400;
+
+  --font-label-md: "Geist", system-ui, sans-serif;
+  --text-label-md: 14px;
+  --text-label-md-lh: 20px;
+  --text-label-md-weight: 500;
+
+  --font-label-sm: "Geist", system-ui, sans-serif;
+  --text-label-sm: 12px;
+  --text-label-sm-lh: 16px;
+  --text-label-sm-weight: 500;
+  --text-label-sm-tracking: 0.02em;
+
+  --font-mono-data: "Geist Mono", monospace;
+  --text-mono-data: 13px;
+  --text-mono-data-lh: 18px;
+  --text-mono-data-weight: 400;
+
+  /* ===== Spacing (4px baseline) ===== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ===== Border Radius ===== */
+  --radius-sm: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Material Symbols - fuera de Tailwind para evitar sobreescribtura */
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== Keyframes ===== */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes toast-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes toast-out {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-slide-in-right { animation: slide-in-right 0.3s ease-out forwards; }
+.animate-slide-out-right { animation: slide-out-right 0.3s ease-in forwards; }
+.animate-fade-in { animation: fade-in 0.2s ease-out forwards; }
+.animate-fade-out { animation: fade-out 0.2s ease-in forwards; }
+.animate-scale-in { animation: scale-in 0.2s ease-out forwards; }
+.animate-toast-in { animation: toast-in 0.3s ease-out forwards; }
+.animate-toast-out { animation: toast-out 0.3s ease-in forwards; }

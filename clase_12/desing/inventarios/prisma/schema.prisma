@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model productos {
+  id            Int          @id @default(autoincrement())
+  nombre        String       @db.VarChar(255)
+  precio        Float
+  stock         Int
+  categoria_id  Int
+  proveedor_id  Int
+  categoria     categorias   @relation(fields: [categoria_id], references: [id])
+  proveedor     proveedores  @relation(fields: [proveedor_id], references: [id])
+
+  @@index([categoria_id])
+  @@index([proveedor_id])
+}
+
+model categorias {
+  id        Int         @id @default(autoincrement())
+  nombre    String      @unique @db.VarChar(255)
+  productos productos[]
+}
+
+model proveedores {
+  id        Int         @id @default(autoincrement())
+  nombre    String      @db.VarChar(255)
+  ruc       String      @unique @db.VarChar(11)
+  email     String      @unique @db.VarChar(255)
+  productos productos[]
+}

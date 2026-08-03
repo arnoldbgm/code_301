@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1A1714">
+  <title>The Barbershop — Precision Is the Craft</title>
+  <meta name="description" content="Barbería artesanal en Ciudad de México. Cortes, afeitados y diseño de barba con precisión y estilo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Saltar al contenido principal</a>
+
+  <nav class="nav" aria-label="Navegación principal">
+    <a href="#" class="nav__logo">THE BARBERSHOP</a>
+    <ul class="nav__links" role="list">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#contacto" class="nav__cta">Reservar</a>
+    <button class="nav__toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+    </button>
+  </nav>
+
+  <main id="main">
+    <header class="hero" id="inicio">
+      <div class="hero__media">
+        <img src="https://images.unsplash.com/photo-1585747860019-024f3e1d2383?w=1920&q=80" alt="" width="1920" height="1080" loading="eager" fetchpriority="high">
+      </div>
+      <div class="hero__overlay"></div>
+      <div class="hero__content reveal">
+        <p class="hero__eyebrow">Est. 2019 · Ciudad de México</p>
+        <h1 class="hero__title">
+          <span class="hero__title-the">THE</span>
+          <span class="hero__title-line" aria-hidden="true"></span>
+          <span class="hero__title-main">BARBERSHOP</span>
+        </h1>
+        <p class="hero__subtitle">Precision is the craft.</p>
+        <a href="#contacto" class="btn">Reservar Cita</a>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </header>
+
+    <section class="services" id="servicios" aria-labelledby="services-heading">
+      <div class="section-intro reveal">
+        <span class="section-intro__eyebrow">Servicios</span>
+        <h2 id="services-heading" class="section-intro__title">Cada corte es una sesión de precisión</h2>
+      </div>
+
+      <div class="services__list">
+        <article class="service reveal">
+          <div class="service__image">
+            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=80" alt="Corte de cabello masculino" width="600" height="400" loading="lazy">
+          </div>
+          <div class="service__body">
+            <h3 class="service__name">Corte Clásico</h3>
+            <p class="service__desc">Corte a tijera y máquina, lavado y estilo. Consulta incluida.</p>
+            <span class="service__price">$25</span>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__image">
+            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80" alt="Afeitado con navaja" width="600" height="400" loading="lazy">
+          </div>
+          <div class="service__body">
+            <h3 class="service__name">Afeitado Clásico</h3>
+            <p class="service__desc">Navaja, toalla caliente y bálsamo. La experiencia completa.</p>
+            <span class="service__price">$20</span>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__image">
+            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80" alt="Diseño de barba" width="600" height="400" loading="lazy">
+          </div>
+          <div class="service__body">
+            <h3 class="service__name">Diseño de Barba</h3>
+            <p class="service__desc">Perfilado, recorte y tratamiento con aceites naturales.</p>
+            <span class="service__price">$18</span>
+          </div>
+        </article>
+
+        <article class="service reveal">
+          <div class="service__image">
+            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80" alt="Tratamiento capilar" width="600" height="400" loading="lazy">
+          </div>
+          <div class="service__body">
+            <h3 class="service__name">Tratamiento VIP</h3>
+            <p class="service__desc">Corte + barba + lavado + masaje capilar. Nuestro paquete premium.</p>
+            <span class="service__price">$45</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="gallery" id="galeria" aria-labelledby="gallery-heading">
+      <div class="section-intro reveal">
+        <span class="section-intro__eyebrow">Galería</span>
+        <h2 id="gallery-heading" class="section-intro__title">Nuestro trabajo habla por nosotros</h2>
+      </div>
+
+      <div class="gallery__grid">
+        <div class="gallery__item gallery__item--wide reveal">
+          <img src="https://images.unsplash.com/photo-1593702288056-84ac8e8d8b73?w=800&q=80" alt="Fade clásico" width="800" height="600" loading="lazy">
+        </div>
+        <div class="gallery__item reveal">
+          <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80" alt="Interior de barbería" width="600" height="400" loading="lazy">
+        </div>
+        <div class="gallery__item reveal">
+          <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80" alt="Afeitado clásico" width="600" height="400" loading="lazy">
+        </div>
+        <div class="gallery__item gallery__item--tall reveal">
+          <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80" alt="Diseño de barba" width="600" height="800" loading="lazy">
+        </div>
+        <div class="gallery__item reveal">
+          <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80" alt="Herramientas de barbería" width="600" height="400" loading="lazy">
+        </div>
+        <div class="gallery__item gallery__item--wide reveal">
+          <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=80" alt="Barbero trabajando" width="800" height="400" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto" aria-labelledby="contact-heading">
+      <div class="section-intro reveal">
+        <span class="section-intro__eyebrow">Contacto</span>
+        <h2 id="contact-heading" class="section-intro__title">Visítanos o reserva tu cita</h2>
+      </div>
+
+      <div class="contact__grid">
+        <div class="contact__info reveal">
+          <div class="contact__block">
+            <h3>Ubicación</h3>
+            <p>Calle Principal 123, Col. Centro<br>Ciudad de México, 06000</p>
+          </div>
+          <div class="contact__block">
+            <h3>Horario</h3>
+            <p>Lunes a Viernes: 9:00 — 20:00<br>Sábados: 9:00 — 18:00<br>Domingos: Cerrado</p>
+          </div>
+          <div class="contact__block">
+            <h3>Teléfono</h3>
+            <p><a href="tel:+525512345678">+52 55 1234 5678</a></p>
+          </div>
+        </div>
+
+        <div class="contact__cta reveal">
+          <p class="contact__cta-heading">Listo para un nuevo look?</p>
+          <a href="tel:+525512345678" class="btn btn--large">Llamar ahora</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__brand">THE BARBERSHOP</p>
+      <p class="footer__copy">&copy; 2025 The Barbershop. Todos los derechos reservados.</p>
+      <ul class="footer__social" role="list">
+        <li><a href="#" aria-label="Instagram">IG</a></li>
+        <li><a href="#" aria-label="Facebook">FB</a></li>
+        <li><a href="#" aria-label="WhatsApp">WA</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

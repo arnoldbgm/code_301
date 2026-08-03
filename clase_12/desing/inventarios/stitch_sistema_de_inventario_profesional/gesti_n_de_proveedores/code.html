@@ -1,0 +1,440 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={theme:{extend:{"colors":{"primary":"#000000","on-primary-container":"#858387","surface-tint":"#5f5e61","surface-container-highest":"#e5e2e1","error-container":"#ffdad6","background":"#fdf8f8","inverse-surface":"#313030","surface-container-high":"#ebe7e7","on-primary":"#ffffff","tertiary":"#000000","outline":"#77767b","inverse-on-surface":"#f4f0ef","tertiary-container":"#1d1b16","primary-fixed":"#e4e1e6","secondary-fixed-dim":"#c6c5cf","on-secondary-fixed":"#1a1b22","on-primary-fixed":"#1b1b1e","on-background":"#1c1b1c","on-primary-fixed-variant":"#47464a","on-tertiary-fixed":"#1d1b16","tertiary-fixed-dim":"#cbc6bd","on-secondary":"#ffffff","secondary-fixed":"#e3e1ec","on-error":"#ffffff","on-tertiary-fixed-variant":"#494640","error":"#ba1a1a","on-secondary-container":"#63646c","surface-bright":"#fdf8f8","on-error-container":"#93000a","on-tertiary":"#ffffff","surface-dim":"#ddd9d9","primary-fixed-dim":"#c8c5ca","surface-container-low":"#f7f3f2","tertiary-fixed":"#e8e2d9","on-surface":"#1c1b1c","on-secondary-fixed-variant":"#46464e","primary-container":"#1b1b1e","surface-container-lowest":"#ffffff","outline-variant":"#c8c5cb","secondary-container":"#e3e1ec","surface-variant":"#e5e2e1","surface":"#fdf8f8","inverse-primary":"#c8c5ca","surface-container":"#f1eded","on-surface-variant":"#47464b","on-tertiary-container":"#88837c","secondary":"#5d5e66"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"md":"16px","lg":"24px","gutter":"20px","base":"4px","sm":"8px","xs":"4px","xl":"32px","container-max":"1440px"},"fontFamily":{"label-sm":["Geist"],"mono-data":["Geist Mono"],"display-lg":["Geist"],"body-sm":["Geist"],"body-base":["Geist"],"label-md":["Geist"],"display-lg-mobile":["Geist"],"headline-md":["Geist"]},"fontSize":{"label-sm":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"mono-data":["13px",{"lineHeight":"18px","fontWeight":"400"}],"display-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-base":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"display-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet"/></head><body class="bg-surface font-body-base text-on-surface"><aside class="fixed left-0 top-0 h-full w-[240px] bg-surface-container-low z-50 flex flex-col pt-lg pb-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)] hidden lg:flex"><div class="px-lg mb-xl flex items-center gap-sm"><span class="material-symbols-outlined text-primary text-[28px]">inventory_2</span><span class="font-headline-md text-headline-md tracking-tight text-on-surface">Monolithic</span></div><nav class="flex-1 px-md space-y-xs" data-active-classes="bg-primary text-on-primary shadow-sm"><a class="flex items-center px-md py-sm rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="dashboard" href="#"><span class="material-symbols-outlined mr-md text-[20px]">dashboard</span>Dashboard</a><a class="flex items-center px-md py-sm rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="productos" href="#"><span class="material-symbols-outlined mr-md text-[20px]">package_2</span>Productos</a><a class="flex items-center px-md py-sm rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all group" data-path="categorias" href="#"><span class="material-symbols-outlined mr-md text-[20px]">category</span>Categorías</a><a aria-current="page" class="flex items-center px-md py-sm rounded-lg font-label-md transition-all group bg-primary text-on-primary shadow-sm" data-path="proveedores" href="#"><span class="material-symbols-outlined mr-md text-[20px]">local_shipping</span>Proveedores</a></nav><div class="px-md pt-md border-t border-outline-variant/30"><a class="flex items-center px-md py-sm rounded-lg text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="configuracion" href="#"><span class="material-symbols-outlined mr-md text-[20px]">settings</span>Configuración</a></div></aside><div class="lg:pl-[240px]"><header class="sticky top-0 w-full h-16 bg-surface/80 backdrop-blur-xl z-40 flex items-center justify-between px-lg shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center gap-md"><button class="lg:hidden p-xs text-on-surface-variant"><span class="material-symbols-outlined">menu</span></button></div><div class="flex items-center gap-lg"><div class="relative hidden md:block"><span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span><input class="bg-surface-container-high text-body-sm font-body-sm pl-xl pr-md py-xs rounded-full w-64 focus:outline-none focus:ring-1 focus:ring-primary/20" placeholder="Buscar inventario..." type="text"/></div><button class="relative p-xs text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full min-h-[calc(100vh-64px)] p-lg lg:p-xl bg-surface-container-lowest"><div class="flex flex-col w-full">
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-xl relative z-10">
+<div class="flex flex-col gap-xs relative">
+<div class="absolute -inset-4 bg-gradient-to-r from-primary/5 to-transparent blur-xl -z-10 rounded-full"></div>
+<h1 class="font-display-lg text-display-lg text-on-surface">Gestión de Proveedores</h1>
+<p class="font-body-base text-body-base text-on-surface-variant flex items-center gap-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+                Administre sus socios comerciales y suministros
+            </p>
+</div>
+<button class="group flex items-center justify-center gap-sm px-lg py-sm bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-all shadow-sm hover:shadow-md active:scale-[0.98] whitespace-nowrap" id="add-provider-btn">
+<span class="material-symbols-outlined text-[20px] transition-transform group-hover:rotate-90">add</span>
+<span class="font-label-md text-label-md">Agregar Proveedor</span>
+</button>
+</div>
+<!-- Quick Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm flex items-center gap-md relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary shrink-0 z-10">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<div class="flex flex-col z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Activos</span>
+<span class="font-display-lg text-display-lg text-on-surface">24</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm flex items-center gap-md relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-secondary shrink-0 z-10">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<div class="flex flex-col z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Prod. Vinculados</span>
+<span class="font-display-lg text-display-lg text-on-surface">1,492</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm flex items-center gap-md relative overflow-hidden group">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-tertiary/5 rounded-full blur-2xl group-hover:bg-tertiary/10 transition-colors"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-tertiary shrink-0 z-10">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div class="flex flex-col z-10">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Evaluación Prom.</span>
+<div class="flex items-center gap-xs">
+<span class="font-display-lg text-display-lg text-on-surface">4.8</span>
+<span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area: Split View on Large Screens -->
+<div class="flex flex-col lg:flex-row gap-lg">
+<!-- Add/Edit Form Panel (Hidden by default, slides in) -->
+<div class="hidden lg:block w-full lg:w-[400px] shrink-0 transition-all duration-300 transform opacity-100 translate-x-0" id="form-panel">
+<div class="bg-surface-container-lowest rounded-xl p-lg shadow-sm sticky top-[88px]">
+<div class="flex items-center justify-between mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface" id="form-title">Nuevo Proveedor</h2>
+<button class="lg:hidden p-xs text-on-surface-variant hover:text-on-surface rounded-full hover:bg-surface-container transition-colors" id="close-form-btn">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="flex flex-col gap-md" onsubmit="event.preventDefault(); submitForm();">
+<!-- Form Fields -->
+<div class="flex flex-col gap-base group">
+<label class="font-label-sm text-label-sm text-on-surface-variant group-focus-within:text-primary transition-colors" for="provider-name">Nombre de la Empresa</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">apartment</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" id="provider-name" placeholder="Ej. TechCorp Industries S.A.C." required="" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-base group">
+<label class="font-label-sm text-label-sm text-on-surface-variant group-focus-within:text-primary transition-colors" for="provider-ruc">RUC (11 dígitos)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">pin</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" id="provider-ruc" pattern="[0-9]{11}" placeholder="20XXXXXXXXX" required="" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-base group">
+<label class="font-label-sm text-label-sm text-on-surface-variant group-focus-within:text-primary transition-colors" for="provider-email">Correo Electrónico</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">mail</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" id="provider-email" placeholder="contacto@empresa.com" required="" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-base group">
+<label class="font-label-sm text-label-sm text-on-surface-variant group-focus-within:text-primary transition-colors" for="provider-phone">Teléfono (Opcional)</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">call</span>
+<input class="w-full bg-surface py-sm pl-xl pr-md rounded-lg text-body-sm font-body-sm text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary/20 transition-shadow" id="provider-phone" placeholder="+51 999 888 777" type="tel"/>
+</div>
+</div>
+<div class="mt-sm flex flex-col gap-sm">
+<button class="w-full py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary/90 transition-colors shadow-sm flex items-center justify-center gap-sm" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span> Guardar
+                        </button>
+<button class="w-full py-sm bg-surface-container text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors lg:hidden" onclick="hideForm()" type="button">
+                            Cancelar
+                        </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Data Table Panel -->
+<div class="flex-1 flex flex-col min-w-0 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Table Controls -->
+<div class="p-md bg-surface-container-lowest flex items-center justify-between border-b border-surface-container gap-md flex-wrap">
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded-md hover:bg-surface transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span class="font-label-md text-label-md hidden sm:inline">Filtrar</span>
+</button>
+<div class="w-px h-4 bg-outline-variant/30"></div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Mostrando 5 de 24</span>
+</div>
+<div class="relative max-w-[240px] w-full sm:w-auto">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface text-body-sm font-body-sm pl-xl pr-md py-xs rounded-full focus:outline-none focus:ring-1 focus:ring-primary/20" placeholder="Buscar en tabla..." type="text"/>
+</div>
+</div>
+<!-- Responsive Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-surface/50 border-b border-surface-container">
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-12 text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</th>
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Proveedor</th>
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">RUC</th>
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Contacto</th>
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-center">Productos</th>
+<th class="p-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold text-right pr-lg">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container bg-surface-container-lowest" id="providers-tbody">
+<!-- Row 1 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</td>
+<td class="p-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-primary-fixed/20 flex items-center justify-center text-primary font-display-lg text-[14px]">I</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Inversiones Globales del Norte S.A.C.</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Lima, Perú</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="font-mono-data text-mono-data text-on-surface bg-surface px-2 py-1 rounded">20554897612</span>
+</td>
+<td class="p-md">
+<a class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="mailto:ventas@inglonor.pe">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+                                    ventas@inglonor.pe
+                                </a>
+</td>
+<td class="p-md text-center">
+<div class="inline-flex items-center justify-center px-2 py-1 bg-surface rounded-full font-mono-data text-mono-data text-on-surface-variant">
+                                    142
+                                </div>
+</td>
+<td class="p-md text-right pr-lg">
+<div class="flex items-center justify-end gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface transition-colors" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-error rounded hover:bg-error/10 transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface/50 transition-colors group bg-surface/20">
+<td class="p-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</td>
+<td class="p-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-secondary-fixed/20 flex items-center justify-center text-secondary font-display-lg text-[14px]">D</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Distribuidora Andina SRL</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Arequipa, Perú</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="font-mono-data text-mono-data text-on-surface bg-surface px-2 py-1 rounded">20145698733</span>
+</td>
+<td class="p-md">
+<a class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="mailto:pedidos@dandina.com">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+                                    pedidos@dandina.com
+                                </a>
+</td>
+<td class="p-md text-center">
+<div class="inline-flex items-center justify-center px-2 py-1 bg-surface rounded-full font-mono-data text-mono-data text-on-surface-variant">
+                                    89
+                                </div>
+</td>
+<td class="p-md text-right pr-lg">
+<div class="flex items-center justify-end gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface transition-colors" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-error rounded hover:bg-error/10 transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</td>
+<td class="p-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-tertiary-fixed/20 flex items-center justify-center text-tertiary font-display-lg text-[14px]">T</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">TechSupply Logistics E.I.R.L.</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Callao, Perú</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="font-mono-data text-mono-data text-on-surface bg-surface px-2 py-1 rounded">20778941256</span>
+</td>
+<td class="p-md">
+<a class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="mailto:info@techsupply.pe">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+                                    info@techsupply.pe
+                                </a>
+</td>
+<td class="p-md text-center">
+<div class="inline-flex items-center justify-center px-2 py-1 bg-surface rounded-full font-mono-data text-mono-data text-on-surface-variant">
+                                    345
+                                </div>
+</td>
+<td class="p-md text-right pr-lg">
+<div class="flex items-center justify-end gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface transition-colors" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-error rounded hover:bg-error/10 transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface/50 transition-colors group bg-surface/20">
+<td class="p-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</td>
+<td class="p-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-primary-fixed/20 flex items-center justify-center text-primary font-display-lg text-[14px]">E</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Empaques del Pacífico SA</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Piura, Perú</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="font-mono-data text-mono-data text-on-surface bg-surface px-2 py-1 rounded">20336541298</span>
+</td>
+<td class="p-md">
+<a class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="mailto:gerencia@empaques.com">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+                                    gerencia@empaques.com
+                                </a>
+</td>
+<td class="p-md text-center">
+<div class="inline-flex items-center justify-center px-2 py-1 bg-surface rounded-full font-mono-data text-mono-data text-on-surface-variant">
+                                    12
+                                </div>
+</td>
+<td class="p-md text-right pr-lg">
+<div class="flex items-center justify-end gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface transition-colors" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-error rounded hover:bg-error/10 transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface/50 transition-colors group">
+<td class="p-md text-center">
+<input class="rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface" type="checkbox"/>
+</td>
+<td class="p-md">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded bg-secondary-fixed/20 flex items-center justify-center text-secondary font-display-lg text-[14px]">C</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Comercializadora Sur SAC</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Tacna, Perú</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="font-mono-data text-mono-data text-on-surface bg-surface px-2 py-1 rounded">20998745632</span>
+</td>
+<td class="p-md">
+<a class="flex items-center gap-xs font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="mailto:compras@comsur.pe">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+                                    compras@comsur.pe
+                                </a>
+</td>
+<td class="p-md text-center">
+<div class="inline-flex items-center justify-center px-2 py-1 bg-surface rounded-full font-mono-data text-mono-data text-on-surface-variant">
+                                    74
+                                </div>
+</td>
+<td class="p-md text-right pr-lg">
+<div class="flex items-center justify-end gap-xs opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface transition-colors" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:text-error rounded hover:bg-error/10 transition-colors" title="Eliminar">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-md bg-surface-container-lowest border-t border-surface-container flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden sm:block">Mostrando 1 - 5 de 24 resultados</span>
+<div class="flex items-center gap-xs w-full sm:w-auto justify-center sm:justify-end">
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex items-center gap-xs px-sm">
+<button class="w-8 h-8 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded-full hover:bg-surface text-on-surface-variant font-label-sm text-label-sm flex items-center justify-center transition-colors">2</button>
+<button class="w-8 h-8 rounded-full hover:bg-surface text-on-surface-variant font-label-sm text-label-sm flex items-center justify-center transition-colors">3</button>
+<span class="text-on-surface-variant font-label-sm">...</span>
+<button class="w-8 h-8 rounded-full hover:bg-surface text-on-surface-variant font-label-sm text-label-sm flex items-center justify-center transition-colors">5</button>
+</div>
+<button class="p-xs text-on-surface-variant hover:text-primary rounded hover:bg-surface">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Toast Notification Container (Hidden initially) -->
+<div class="fixed bottom-lg right-lg bg-inverse-surface text-inverse-on-surface px-lg py-sm rounded-lg shadow-xl font-body-sm text-body-sm flex items-center gap-sm transform translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-[20px] text-primary-fixed">check_circle</span>
+<span id="toast-message">Proveedor guardado exitosamente.</span>
+</div>
+<script>
+        const addBtn = document.getElementById('add-provider-btn');
+        const formPanel = document.getElementById('form-panel');
+        const closeBtn = document.getElementById('close-form-btn');
+        let isFormVisible = window.innerWidth >= 1024; // lg breakpoint
+
+        function toggleForm() {
+            isFormVisible = !isFormVisible;
+            if (isFormVisible) {
+                formPanel.classList.remove('hidden');
+                // Small delay to allow display block to apply before animating opacity
+                setTimeout(() => {
+                    formPanel.classList.remove('opacity-0', 'translate-x-full', 'absolute');
+                    formPanel.classList.add('opacity-100', 'translate-x-0');
+                    if(window.innerWidth < 1024) {
+                        formPanel.classList.add('absolute', 'top-0', 'right-0', 'h-full', 'z-40', 'bg-surface-container-lowest', 'w-full', 'sm:w-[400px]', 'shadow-2xl');
+                    }
+                }, 10);
+            } else {
+                hideForm();
+            }
+        }
+
+        function hideForm() {
+            isFormVisible = false;
+            formPanel.classList.remove('opacity-100', 'translate-x-0');
+            formPanel.classList.add('opacity-0', 'translate-x-full');
+            setTimeout(() => {
+                if(!isFormVisible) {
+                    formPanel.classList.add('hidden');
+                    formPanel.classList.remove('absolute', 'top-0', 'right-0', 'h-full', 'z-40', 'bg-surface-container-lowest', 'w-full', 'sm:w-[400px]', 'shadow-2xl');
+                }
+            }, 300);
+        }
+
+        addBtn.addEventListener('click', toggleForm);
+        closeBtn.addEventListener('click', hideForm);
+
+        // Handle resize to reset form state for desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                formPanel.classList.remove('hidden', 'absolute', 'top-0', 'right-0', 'h-full', 'z-40', 'shadow-2xl', 'opacity-0', 'translate-x-full');
+                formPanel.classList.add('opacity-100', 'translate-x-0', 'block');
+                isFormVisible = true;
+            } else if (isFormVisible && !formPanel.classList.contains('absolute')) {
+                 hideForm();
+            }
+        });
+
+        function submitForm() {
+            const btn = document.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            // Loading state
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Guardando...`;
+            btn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                document.querySelector('form').reset();
+                showToast('Proveedor guardado exitosamente');
+                if(window.innerWidth < 1024) hideForm();
+            }, 800);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</div></main></div></body></html>
